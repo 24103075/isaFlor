@@ -6,14 +6,12 @@ import logo from '../../assets/logo.webp';
 
 const Header = ({ cartCount = 0, usuario, onLogout }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-isaflor shadow-sm">
+    <nav className="navbar navbar-expand-lg isaflor-header shadow-sm">
       <div className="container-fluid px-4">
-        <Link className="navbar-brand fw-bold fs-3" to="/">
-         <img src={logo} alt="IsaFlor Logo" height="90" className="d-inline-block align-text-top"
-          />
-          <></>
+        <Link className="navbar-brand isaflor-header__brand" to="/">
+          <img src={logo} alt="Logo de IsaFlor" className="isaflor-header__logo" />
           <span>IsaFlor</span>
-        </Link>
+      </Link>
 
         <button
           className="navbar-toggler"
@@ -27,16 +25,16 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/">Inicio</Link>
+              <Link className="nav-link" to="/">Inicio</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/catalogo">Catálogo</Link>
+              <Link className="nav-link" to="/catalogo">Catálogo</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/nosotros">Nosotros</Link>
+              <Link className="nav-link" to="/nosotros">Nosotros</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/contacto">Contacto</Link>
+              <Link className="nav-link" to="/contacto">Contacto</Link>
             </li>
             {usuario && usuario.rol === 'ADMIN' && (
               <li className="nav-item">
@@ -48,7 +46,7 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
           </ul>
 
           <div className="d-flex align-items-center gap-3">
-            <Link to="/carrito" className="btn btn-outline-light position-relative">
+            <Link to="/carrito" className="btn isaflor-header__action position-relative">
               🛒 Carrito
               {cartCount > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -76,10 +74,9 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
               </div>
             ) : (
               <div className="d-flex gap-2">
-                <Link to="/login" className="btn btn-light btn-sm fw-bold">
-                  Ingresar
+                <Link to="/login" className="btn isaflor-header__action">                  Ingresar
                 </Link>
-                <Link to="/registro" className="btn btn-outline-light btn-sm">
+                <Link to="/registro" className="btn isaflor-header__action">
                   Registrarse
                 </Link>
               </div>
