@@ -1,0 +1,11 @@
+/* src/styles/organisms/Header.css */
+.bg-isaflor {
+  background-color: #f3e9a5;
+}
+
+.isaflor-header {
+  background-color: #f3e9a5;
+  color: #18334b;
+  text-align: left;
+  font-size: 14px;
+}

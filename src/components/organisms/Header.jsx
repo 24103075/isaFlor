@@ -1,16 +1,20 @@
-// src/components/organisms/Navbar.jsx
+// src/components/organisms/Header.jsx
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../../styles/organisms/Header.css';
+import logo from '../../assets/logo.webp';
 
-const Navbar = ({ cartCount = 0, usuario, onLogout }) => {
-  const navigate = useNavigate();
-
+const Header = ({ cartCount = 0, usuario, onLogout }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-      <div className="container">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-isaflor shadow-sm">
+      <div className="container-fluid px-4">
         <Link className="navbar-brand fw-bold fs-3" to="/">
-          🌸 IsaFlor
+         <img src={logo} alt="IsaFlor Logo" height="90" className="d-inline-block align-text-top"
+          />
+          <></>
+          <span>IsaFlor</span>
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -19,6 +23,7 @@ const Navbar = ({ cartCount = 0, usuario, onLogout }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -86,4 +91,4 @@ const Navbar = ({ cartCount = 0, usuario, onLogout }) => {
   );
 };
 
-export default Navbar;
+export default Header;

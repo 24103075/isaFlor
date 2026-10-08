@@ -1,6 +1,5 @@
 // src/App.jsx
 import React, { useState } from 'react';
-// 1. Agrega Navigate aquí 👇
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'; 
 import MainTemplate from './components/templates/MainTemplate';
 import Home from './pages/Home';
@@ -9,6 +8,8 @@ import Carrito from './pages/Carrito';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
+import  './styles/global.css';
+import Registro from './pages/Registro';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/carrito" element={<Carrito cart={cart} setCart={setCart} />} />
           <Route path="/checkout" element={<Checkout cart={cart} setCart={setCart} usuario={usuario} />} />
           <Route path="/login" element={<Login setUsuario={setUsuario} />} />
+          <Route path="/registro" element={<Registro setUsuario={setUsuario} />} />
           
           <Route
             path="/admin"

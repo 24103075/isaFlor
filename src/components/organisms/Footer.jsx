@@ -1,28 +1,24 @@
 // src/components/organisms/Footer.jsx
 import React from 'react';
+import '../../styles/organisms/Footer.css';
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-white pt-4 pb-3 mt-auto">
+    <footer className="isaflor-footer pt-4 pb-3 mt-auto">
       <div className="container">
-        <div className="row">
-          <div className="col-md-4 mb-3">
-            <h5>🌸 IsaFlor</h5>
-            <p className="small text-muted">
-              Florería dedicada a llevar frescura y elegancia a cada rincón con los mejores arreglos florales.
-            </p>
-          </div>
-          <div className="col-md-4 mb-3">
-            <h5>Contacto</h5>
-            <p className="small text-muted mb-1">📍 Av. Las Flores 1234, Santiago</p>
-            <p className="small text-muted mb-1">📞 +56 9 1234 5678</p>
-            <p className="small text-muted">✉️ contacto@isaflor.cl</p>
-          </div>
-          <div className="col-md-4 mb-3">
-            <h5>Horario de Atención</h5>
-            <p className="small text-muted mb-1">Lunes a Viernes: 09:00 - 19:00 hrs</p>
-            <p className="small text-muted">Sábados: 10:00 - 14:00 hrs</p>
-          </div>
+        <div className="isaflor-footer__detalles">
+          <p>Teléfono: +56 9 61991487</p>
+          <p>Correo: contacto@isaflor.cl</p>
+          <p>Dirección: Av. Manantiales 123, Melipilla</p>
+          <p>Horario: lunes a sábado, 09:00 a 18:00</p>
+        </div>
+        <div className="isaflor-footer__redes">
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+            <i className="bi bi-instagram" aria-hidden="true" /> Instagram
+          </a>
+          <a href="https://wa.me/56961991487" target="_blank" rel="noreferrer">
+            <i className="bi bi-whatsapp" aria-hidden="true" /> WhatsApp
+          </a>
         </div>
         <hr className="border-secondary" />
         <div className="text-center small text-muted">

@@ -10,13 +10,13 @@ const Home = ({ onAddToCart }) => {
   return (
     <div>
       {/* Banner Principal */}
-      <div className="p-5 mb-4 bg-success text-white rounded-3 shadow-sm">
-        <div className="container-fluid py-3">
-          <h1 className="display-5 fw-bold">Bienvenidos a IsaFlor 🌸</h1>
-          <p className="col-md-8 fs-4">
-            Expresa tus sentimientos con la frescura y elegancia de nuestras flores seleccionadas a mano.
-          </p>
-        </div>
+      <div className="bg-success p-5 mb-4 rounded-3 text-center d-flex flex-column align-items-center justify-content-center">
+        <h1 className="fw-bold mb-3 text-center w-100">
+          Bienvenidos a IsaFlor 🌸
+        </h1>
+        <p className="fs-5 text-center mb-0 max-w-75 mx-auto">
+          Expresa tus sentimientos con la frescura y elegancia de nuestras flores seleccionadas a mano.
+        </p>
       </div>
 
       {/* Sección de Ofertas */}

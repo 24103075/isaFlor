@@ -1,14 +1,14 @@
-// src/test/components/organisms/Navbar.spec.jsx
+// src/test/components/organisms/Header.spec.jsx
 import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Navbar from '../../../components/organisms/Navbar';
+import Header from '../../../components/organisms/Header';
 
-describe('Navbar Component', () => {
+describe('Header Component', () => {
   it('renderiza el título y los enlaces de navegación', () => {
     const { getByText } = render(
       <BrowserRouter>
-        <Navbar cartCount={3} />
+        <Header cartCount={3} />
       </BrowserRouter>
     );
 
