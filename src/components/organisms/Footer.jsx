@@ -9,11 +9,11 @@ const Footer = () => {
         <div className="isaflor-footer__detalles">
           <p>Teléfono: +56 9 61991487</p>
           <p>Correo: contacto@isaflor.cl</p>
-          <p>Dirección: Av. Manantiales 123, Melipilla</p>
-          <p>Horario: lunes a sábado, 09:00 a 18:00</p>
+          <p>Dirección: Manantiales sitio 7, Melipilla</p>
+          <p>Horario: Lunes a Sábado, 09:00 a 18:00</p>
         </div>
         <div className="isaflor-footer__redes">
-          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+          <a href="https://www.instagram.com/isa_flor.manantiales?stkn=OXRzMWd5eDE1Nm1p&utm_source=qr/" target="_blank" rel="noreferrer">
             <i className="bi bi-instagram" aria-hidden="true" /> Instagram
           </a>
           <a href="https://wa.me/56961991487" target="_blank" rel="noreferrer">
