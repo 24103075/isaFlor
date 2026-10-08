@@ -1,13 +1,13 @@
 // src/components/templates/MainTemplate.jsx
 import React from 'react';
-import Navbar from '../organisms/Navbar';
+import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
 
 const MainTemplate = ({ children, cartCount, usuario, onLogout }) => {
   return (
     <div className="d-flex flex-column min-vh-100 bg-light">
-      <Navbar cartCount={cartCount} usuario={usuario} onLogout={onLogout} />
-      <main className="container my-4 flex-grow-1">
+      <Header cartCount={cartCount} usuario={usuario} onLogout={onLogout} />
+      <main className="container-fluid px-4 my-4 flex-grow-1">
         {children}
       </main>
       <Footer />

@@ -1,0 +1,34 @@
+.isaflor-footer {
+  background-color: #f3e9a5;
+  color: #18334b;
+  text-align: left;
+  font-size: 14px;
+}
+
+.isaflor-footer__detalles {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.isaflor-footer__detalles p {
+  margin: 0;
+}
+
+.isaflor-footer__redes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 8px 0;
+}
+
+.isaflor-footer__redes a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.isaflor-footer__redes a:hover {
+  text-decoration: underline;
+}

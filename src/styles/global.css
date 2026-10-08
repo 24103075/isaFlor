@@ -1,0 +1,71 @@
+/* src/styles/global.css */
+
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden;
+  background-color: #F8D7DA !important; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+  width: 100%;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/* 2. Encabezado (Header) - Rosa pastel suave */
+.navbar, 
+nav.navbar,
+.bg-success {
+  background-color: #f3e9a5 !important; /* Cambia el fondo negro por Rosa Pastel */
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  color: #5D4037 !important; /* Texto café suave para buen contraste */
+  font-weight: 600;
+}
+
+.navbar .nav-link:hover {
+  color: #000000 !important;
+}
+
+/* 3. Cuadro de Bienvenida (Hero) - Verde Menta pastel */
+.bg-success.p-5, 
+div.bg-success,
+.p-5.mb-4.bg-success {
+  background-color: #f3e9a5 !important; 
+  color: #000!important;
+  border-radius: 16px;
+  text-align: center !important;
+}
+
+.bg-success.p-5 h1,
+.bg-success.p-5 p,
+div.bg-success h1,
+div.bg-success p {
+  color:#5D4037 !important;
+}
+
+/* 4. Botones y Badges destacados */
+.btn-success {
+  background-color: #f3e9a5 !important;
+  border-color: #f3e9a5 !important;
+  color: #5D4037 !important;
+  font-weight: bold;
+}
+
+.btn-success:hover {
+  background-color: #E8A5A5 !important;
+  border-color: #E8A5A5 !important;
+  color: #ffffff !important;
+}
+
+.bg-danger, .badge.bg-danger {
+  background-color: #E8A5A5 !important;
+  color: #0000 !important;
+}

@@ -1,4 +1,3 @@
-
 /* Este archivo se creo para que la pagina valide la 
 informacion que ingresa el cliente y le de formato correcto.*/
 
@@ -41,13 +40,63 @@ export const formatearPrecio = (precio) => {
   }).format(precio);
 };
 
-// Esta es la función que te faltaba exportar:
+// 1. Obtener lista de usuarios dinámicos desde localStorage
+export const obtenerUsuariosRegistrados = () => {
+  const usuarios = localStorage.getItem('isaflor_usuarios');
+  return usuarios ? JSON.parse(usuarios) : [];
+};
+
+// 2. Registrar un nuevo usuario dinámico
+export const registrarNuevoUsuario = (datosUsuario) => {
+  const usuariosExistentes = obtenerUsuariosRegistrados();
+
+  // Validar si el correo ya está registrado en la lista
+  const existe = usuariosExistentes.some(
+    (u) => u.email.toLowerCase() === datosUsuario.email.toLowerCase()
+  );
+
+  if (existe || datosUsuario.email === 'admin@isaflor.cl' || datosUsuario.email === 'cliente@isaflor.cl') {
+    return { exito: false, mensaje: 'El correo electrónico ya se encuentra registrado.' };
+  }
+
+  const nuevoUsuario = {
+    id: Date.now(),
+    nombre: datosUsuario.nombre.trim(),
+    email: datosUsuario.email.trim().toLowerCase(),
+    password: datosUsuario.password,
+    rol: 'CLIENTE',
+    fechaRegistro: new Date().toISOString()
+  };
+
+  usuariosExistentes.push(nuevoUsuario);
+  localStorage.setItem('isaflor_usuarios', JSON.stringify(usuariosExistentes));
+
+  return { exito: true, mensaje: '¡Cuenta creada con éxito! Redirigiendo...' };
+};
+
+// 3. Login de usuario (Soporta demo y cuentas registradas nuevas)
 export const loginUsuario = (email, password) => {
+  // Cuentas fijas / demo
   if (email === 'admin@isaflor.cl' && password === 'admin123') {
     return { nombre: 'Administrador IsaFlor', email, rol: 'ADMIN', rut: '11111111-1' };
   }
   if (email === 'cliente@isaflor.cl' && password === '123456') {
     return { nombre: 'Cliente Demo', email, rol: 'CLIENTE', rut: '22222222-2' };
   }
+
+  // Buscar en usuarios dinámicos guardados al registrarse
+  const usuariosRegistrados = obtenerUsuariosRegistrados();
+  const usuarioEncontrado = usuariosRegistrados.find(
+    (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+  );
+
+  if (usuarioEncontrado) {
+    return {
+      nombre: usuarioEncontrado.nombre,
+      email: usuarioEncontrado.email,
+      rol: usuarioEncontrado.rol
+    };
+  }
+
   return null;
 };
