@@ -4,8 +4,108 @@
 }
 
 .isaflor-header {
-  background-color: #f3e9a5;
-  color: #18334b;
-  text-align: left;
-  font-size: 14px;
+  background-color: #fffdf6;
+  color: #294638;
+  border-bottom: 1px solid #dce5d8;
+  font-size: 15px;
+  padding-block: 0.45rem;
+}
+
+.isaflor-header__container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+.navbar.isaflor-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-right: 3rem;
+}
+
+.isaflor-header__logo {
+  display: block;
+  width: auto;
+  height: 80px;
+  max-width: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.isaflor-header__brand-text {
+  color: #294638;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.isaflor-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.isaflor-header__nav .nav-link:hover,
+.isaflor-header__nav .nav-link:focus-visible {
+  border-color: #d98c8f;
+  background-color: #e8f0e5;
+  color: #315f43;
+
+}
+
+.isaflor-header__actions {
+  gap: 0.65rem;
+  flex-wrap: wrap;
+
+
+}
+
+.isaflor-header__action,
+.isaflor-header__actions .dropdown-toggle {
+  border: 1px solid #cbd8cc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #294638;
+  padding: 0.55rem 0.85rem;
+  font-weight: 600;
+}
+
+.isaflor-header__action:hover,
+.isaflor-header__actions .dropdown-toggle:hover {
+  border-color: #78977e;
+  background-color: #e8f0e5;
+  color: #294638;
+}
+
+@media (max-width: 991.98px) {
+  .isaflor-header__nav {
+    align-items: stretch;
+    padding-top: 0.75rem;
+  }
+
+  .isaflor-header__actions {
+    margin: 0.4rem 0 0.25rem;
+  }
+}
+
+.isaflor-header__action--primary {
+  border-color: #a94f58;
+  background-color: #a94f58;
+  color: #fff;
+}
+
+.isaflor-header__action--primary:hover,
+.isaflor-header__action--primary:focus-visible {
+  border-color: #244b33;
+  background-color: #244b33;
+  color: #fff;
+}
+
+@media (max-width: 575.98px) {
+  .isaflor-header__logo {
+    height: 42px;
+    max-width: 54px;
+  }
 }

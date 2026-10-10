@@ -4,52 +4,96 @@ localStorage para que las modificaciones de productos, usuarios,
 categorias y carrito no se pierdan al recargar la pagina. */
 
 
-
-
-
 // src/data/datosIsaflor.js
 
 export const productosIniciales = [
   {
     id: 1,
-    nombre: "Ramo de Rosas Rojas",
-    categoria: "Rosas",
-    precio: 24990,
-    stock: 10,
-    stockCritico: 3,
-    descripcion: "Hermoso ramo de 12 rosas rojas frescas.",
-    imagen: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500",
-    enOferta: true
+    nombre: "Mini Cartera Floral Rosa Pastel",
+    precio: 18990,
+    imagen: "https://i.ibb.co/yjndKHL/imagen-6.jpg",
+    categoria: "Arreglos",
+    descripcion: "Cartera floral trasportable con flores frescas en tonos pastel."
   },
   {
     id: 2,
-    nombre: "Orquídea Blanca",
-    categoria: "Plantas",
-    precio: 18990,
-    stock: 2,
-    stockCritico: 3,
-    descripcion: "Elegante orquídea blanca en maceta.",
-    imagen: "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=500",
-    enOferta: false
+    nombre: "Cartera floral de campo",
+    precio: 21990,
+    imagen: "https://i.ibb.co/VWv5VC7L/imagen-7.jpg",
+    categoria: "Arreglos",
+    descripcion: "Flores de campo recién cortadas ,puestas en esponja floral en cartera transportable especial."
   },
   {
     id: 3,
-    nombre: "Arreglo Silvestre",
+    nombre: "Ramo Amanecer ",
+    precio: 15990,
+    imagen: "https://i.ibb.co/KjyVBwky/imagen-8.jpg",
     categoria: "Arreglos",
-    precio: 29990,
-    stock: 5,
-    stockCritico: 2,
-    descripcion: "Mezcla de flores de estación con diseño único.",
-    imagen: "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500",
-    enOferta: true
+    descripcion: "Ramo floral titulacion."
+  },
+ 
+  {
+    id: 4,
+    nombre: "Ramo Zinnias",
+    precio: 9990,
+    imagen: "https://i.ibb.co/zWdCfxF0/imagen-11.jpg",
+    categoria: "Ramos",
+    descripcion: "Zinnias frescas y coloridas en un ramo compacto y alegre."
+  },
+  {
+    id: 5,
+    nombre: "12 Craspedias Amarillas",
+    precio: 7990,
+    imagen: "https://i.ibb.co/q32XrMwx/imagen-12.jpg",
+    categoria: "Ramos",
+    descripcion: "Ramo fresco de Craspedias, adecuadas para almacenar en seco , tiene una duracion de por vida."
+  },
+  {
+    id: 6,
+    nombre: "Ramo Lisianthus Carmine ",
+    precio: 9990,
+    imagen: "https://i.ibb.co/pj8zbRs7/imagen-13.jpg",
+    categoria: "Ramos",
+    descripcion: "Frescos Lisianthus de nuestra produccion."
+  },
+  {
+    id: 7,
+    nombre: "Arreglo Floral Primaveral",
+    precio: 26990,
+    imagen: "https://i.ibb.co/gFJfYks3/imagen-14.jpg",
+    categoria: "Arreglos",
+    descripcion: "Flores variadas listas para decorar cualquier espacio."
+  },
+  {
+    id: 8,
+    nombre: "Ramo Mix de Estación",
+    precio: 25990,
+    imagen: "https://i.ibb.co/k2njBBtZ/imagen-15.jpg",
+    categoria: "Arreglos",
+    descripcion: "Combinación fresca de las mejores flores del día."
+  },
+  {
+    id: 9,
+    nombre: "Ramo Floral Girasoles",
+    precio: 24990,
+    imagen: "https://i.ibb.co/Fkf6PZ6H/imagen-16.jpg",
+    categoria: "Ramos",
+    descripcion: "Diseño abundante de girasoles de temporada."
+  },
+  {
+    id: 10,
+    nombre: "Ramo Surtido Alstroemerias",
+    precio: 7990,
+    imagen: "https://i.ibb.co/C506mLZX/imagen-17.jpg",
+    categoria: "Ramos",
+    descripcion: "Arreglo exclusivo en tonos pastel seleccionados."
   }
 ];
 
 export const categorias = [
-  { id: 'todas', nombre: 'Todas' },
-  { id: 'rosas', nombre: 'Rosas' },
-  { id: 'plantas', nombre: 'Plantas' },
-  { id: 'arreglos', nombre: 'Arreglos' }
+  { id: 'arreglos', nombre: 'Arreglos' },
+  { id: 'ramos', nombre: 'Ramos' }
+  
 ];
 
 export const getProductos = () => {
