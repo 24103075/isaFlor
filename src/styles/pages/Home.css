@@ -1,55 +1,31 @@
+/* src/styles/pages/Home.css */
+
+/* Hero Banner */
 .home-hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 340px;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  border-radius: 12px;
-  background-color: #f3e9a5;
+  background-color: var(--isaflor-verde-eucalipto, #EAF2ED);
+  border: 1px solid #D8E6DC;
 }
 
-.home-hero__content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 2.5rem;
+.home-hero__title {
+  color: var(--isaflor-verde-bosque, #2D5A27);
+  letter-spacing: -0.5px;
 }
 
-.home-hero__content h1 {
-  margin: 0 0 1rem;
-  color: #405533;
-  font-size: 2.5rem;
-}
-
-.home-hero__content p {
-  max-width: 36rem;
-  color: #4a382b;
-  font-size: 1.1rem;
+.home-hero__description {
+  color: var(--isaflor-texto-oscuro, #2C3E35);
+  max-width: 550px;
 }
 
 .home-hero__image {
-  width: 100%;
-  height: 100%;
-  min-height: 340px;
+  max-height: 260px;
   object-fit: cover;
+  width: 100%;
+  max-width: 400px;
 }
 
-@media (max-width: 700px) {
-  .home-hero {
-    grid-template-columns: 1fr;
-  }
-
-  .home-hero__content {
-    padding: 2rem 1.5rem;
-  }
-
-  .home-hero__content h1 {
-    font-size: 2rem;
-  }
-
+/* Responsividad para la imagen del Hero */
+@media (min-width: 768px) {
   .home-hero__image {
-    height: 260px;
-    min-height: 260px;
+    width: 40%;
   }
 }

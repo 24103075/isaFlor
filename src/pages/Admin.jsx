@@ -1,13 +1,18 @@
 // src/pages/Admin.jsx
 import React, { useState } from 'react';
+import Button from '../components/atoms/Button';
+import Badge from '../components/atoms/Badge';
 import { getProductos, guardarProductos, getCategorias } from '../data/datosIsaflor';
-import { formatearPrecio } from '../utils/validaciones';
+import { formatearPrecio, tieneStockCritico, validarFormularioProducto } from '../utils/validaciones';
+import '../styles/pages/Admin.css';
 
 const Admin = () => {
   const [productos, setProductos] = useState(getProductos());
+  const [errorForm, setErrorForm] = useState('');
   const categorias = getCategorias();
 
-  const [form, setForm] = useState({
+  // Estado inicial del formulario
+  const estadoInicialForm = {
     id: null,
     nombre: '',
     categoria: 'Rosas',
@@ -17,22 +22,39 @@ const Admin = () => {
     descripcion: '',
     imagen: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500',
     enOferta: false
-  });
-
-  const [editando, setEditando] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
+  const [form, setForm] = useState(estadoInicialForm);
+  const [editando, setEditando] = useState(false);
+
+  // Manejador centralizado para los cambios de inputs
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  // Guardar o Actualizar Producto
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.nombre || !form.precio || !form.stock) return;
+    
+    // 1. Usamos nuestra función de validación
+    const error = validarFormularioProducto(form);
+    if (error) {
+      setErrorForm(error);
+      return;
+    }
+    setErrorForm(''); // Limpiamos errores anteriores
 
     let listaActualizada;
     if (editando) {
-      listaActualizada = productos.map(p => (p.id === form.id ? { ...form, precio: Number(form.precio), stock: Number(form.stock) } : p));
+      listaActualizada = productos.map(p => 
+        p.id === form.id 
+          ? { ...form, precio: Number(form.precio), stock: Number(form.stock) } 
+          : p
+      );
     } else {
       const nuevoProducto = {
         ...form,
@@ -51,6 +73,7 @@ const Admin = () => {
   const handleEditar = (producto) => {
     setForm(producto);
     setEditando(true);
+    setErrorForm('');
   };
 
   const handleEliminar = (id) => {
@@ -62,33 +85,30 @@ const Admin = () => {
   };
 
   const resetForm = () => {
-    setForm({
-      id: null,
-      nombre: '',
-      categoria: 'Rosas',
-      precio: '',
-      stock: '',
-      stockCritico: 3,
-      descripcion: '',
-      imagen: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500',
-      enOferta: false
-    });
+    setForm(estadoInicialForm);
     setEditando(false);
+    setErrorForm('');
   };
 
-  const productosStockBajo = productos.filter(p => p.stock <= p.stockCritico);
+  // Obtenemos directamente la lista de productos con stock crítico usando el helper
+  const productosStockBajo = productos.filter(p => tieneStockCritico(p));
 
   return (
-    <div>
-      <h2 className="mb-4 text-success border-bottom pb-2">Panel de Administración de Inventario</h2>
+    <div className="admin-container container py-3">
+      <h2 className="mb-4 admin-title border-bottom pb-2 fw-bold">
+        Panel de Administración de Inventario
+      </h2>
 
+      {/* Banner de alerta de Stock Crítico */}
       {productosStockBajo.length > 0 && (
-        <div className="alert alert-warning shadow-sm mb-4" role="alert">
-          <h5 className="alert-heading fw-bold">⚠️ Alertas de Stock Crítico ({productosStockBajo.length})</h5>
-          <ul className="mb-0">
+        <div className="alert alert-warning shadow-sm mb-4 border-0 rounded-3" role="alert">
+          <h5 className="alert-heading fw-bold mb-2">
+            ⚠️ Alertas de Stock Crítico ({productosStockBajo.length})
+          </h5>
+          <ul className="mb-0 small">
             {productosStockBajo.map(p => (
               <li key={p.id}>
-                <strong>{p.nombre}</strong> — Quedan <strong>{p.stock}</strong> unidades (Mínimo requerido: {p.stockCritico}).
+                <strong>{p.nombre}</strong> — Quedan <strong>{p.stock}</strong> unidades (Mínimo: {p.stockCritico}).
               </li>
             ))}
           </ul>
@@ -96,58 +116,73 @@ const Admin = () => {
       )}
 
       <div className="row g-4">
+        {/* Formulario de Creación / Edición */}
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0 p-3">
-            <h5 className="card-title text-success mb-3">
+          <div className="card shadow-sm border-0 p-3 rounded-4">
+            <h5 className="card-title admin-card-title mb-3 fw-bold">
               {editando ? 'Editar Producto' : 'Añadir Nuevo Producto'}
             </h5>
+
+            {errorForm && (
+              <div className="alert alert-danger p-2 small mb-3">{errorForm}</div>
+            )}
+
             <form onSubmit={handleSubmit}>
               <div className="mb-2">
-                <label className="form-label small">Nombre</label>
-                <input type="text" name="nombre" value={form.nombre} onChange={handleChange} className="form-control" required />
+                <label className="form-label small fw-semibold">Nombre</label>
+                <input type="text" name="nombre" value={form.nombre} onChange={handleChange} className="form-control form-control-sm" required />
               </div>
+
               <div className="mb-2">
-                <label className="form-label small">Categoría</label>
-                <select name="categoria" value={form.categoria} onChange={handleChange} className="form-select">
+                <label className="form-label small fw-semibold">Categoría</label>
+                <select name="categoria" value={form.categoria} onChange={handleChange} className="form-select form-select-sm">
                   {categorias.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
                 </select>
               </div>
+
               <div className="row g-2 mb-2">
                 <div className="col-6">
-                  <label className="form-label small">Precio ($)</label>
-                  <input type="number" name="precio" value={form.precio} onChange={handleChange} className="form-control" required />
+                  <label className="form-label small fw-semibold">Precio ($)</label>
+                  <input type="number" name="precio" value={form.precio} onChange={handleChange} className="form-control form-control-sm" required />
                 </div>
                 <div className="col-6">
-                  <label className="form-label small">Stock</label>
-                  <input type="number" name="stock" value={form.stock} onChange={handleChange} className="form-control" required />
+                  <label className="form-label small fw-semibold">Stock</label>
+                  <input type="number" name="stock" value={form.stock} onChange={handleChange} className="form-control form-control-sm" required />
                 </div>
               </div>
+
               <div className="mb-2">
-                <label className="form-label small">Stock Crítico</label>
-                <input type="number" name="stockCritico" value={form.stockCritico} onChange={handleChange} className="form-control" required />
+                <label className="form-label small fw-semibold">Stock Crítico</label>
+                <input type="number" name="stockCritico" value={form.stockCritico} onChange={handleChange} className="form-control form-control-sm" required />
               </div>
+
               <div className="mb-2">
-                <label className="form-label small">Descripción</label>
-                <textarea name="descripcion" value={form.descripcion} onChange={handleChange} className="form-control" rows="2"></textarea>
+                <label className="form-label small fw-semibold">Descripción</label>
+                <textarea name="descripcion" value={form.descripcion} onChange={handleChange} className="form-control form-control-sm" rows="2"></textarea>
               </div>
+
               <div className="form-check mb-3">
                 <input type="checkbox" name="enOferta" checked={form.enOferta} onChange={handleChange} className="form-check-input" id="checkOferta" />
                 <label className="form-check-label small" htmlFor="checkOferta">En Oferta</label>
               </div>
-              <button type="submit" className="btn btn-success w-100 mb-2">
+
+              {/* Uso del componente atómico Button */}
+              <Button type="submit" variant="isaflor" className="w-100 mb-2 py-2 fw-semibold">
                 {editando ? 'Guardar Cambios' : 'Crear Producto'}
-              </button>
+              </Button>
+
               {editando && (
-                <button type="button" onClick={resetForm} className="btn btn-outline-secondary w-100">
+                <Button type="button" onClick={resetForm} variant="outline-secondary" className="w-100 py-1">
                   Cancelar
-                </button>
+                </Button>
               )}
             </form>
           </div>
         </div>
 
+        {/* Tabla de Productos */}
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0">
+          <div className="card shadow-sm border-0 rounded-4 overflow-hidden">
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-hover align-middle mb-0">
@@ -158,29 +193,33 @@ const Admin = () => {
                       <th>Precio</th>
                       <th>Stock</th>
                       <th>Estado</th>
-                      <th>Acciones</th>
+                      <th className="text-end pe-3">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {productos.map(p => (
-                      <tr key={p.id} className={p.stock <= p.stockCritico ? 'table-warning' : ''}>
-                        <td className="fw-bold">{p.nombre}</td>
-                        <td>{p.categoria}</td>
-                        <td>{formatearPrecio(p.precio)}</td>
-                        <td>{p.stock}</td>
-                        <td>
-                          {p.stock <= p.stockCritico ? (
-                            <span className="badge bg-warning text-dark">Stock Bajo</span>
-                          ) : (
-                            <span className="badge bg-success">OK</span>
-                          )}
-                        </td>
-                        <td>
-                          <button className="btn btn-sm btn-outline-primary me-2" onClick={() => handleEditar(p)}>✏️</button>
-                          <button className="btn btn-sm btn-outline-danger" onClick={() => handleEliminar(p.id)}>🗑️</button>
-                        </td>
-                      </tr>
-                    ))}
+                    {productos.map(p => {
+                      const esCritico = tieneStockCritico(p);
+                      return (
+                        <tr key={p.id} className={esCritico ? 'table-warning-soft' : ''}>
+                          <td className="fw-bold text-dark">{p.nombre}</td>
+                          <td><span className="badge bg-light text-dark border">{p.categoria}</span></td>
+                          <td className="fw-semibold">{formatearPrecio(p.precio)}</td>
+                          <td>{p.stock}</td>
+                          <td>
+                            {/* Reuso del componente atómico Badge */}
+                            {esCritico ? (
+                              <Badge bg="warning" className="text-dark">Stock Bajo</Badge>
+                            ) : (
+                              <Badge bg="success">OK</Badge>
+                            )}
+                          </td>
+                          <td className="text-end pe-3">
+                            <button className="btn btn-sm btn-outline-primary me-2 border-0" title="Editar" onClick={() => handleEditar(p)}>✏️</button>
+                            <button className="btn btn-sm btn-outline-danger border-0" title="Eliminar" onClick={() => handleEliminar(p.id)}>🗑️</button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

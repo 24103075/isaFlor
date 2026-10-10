@@ -100,3 +100,24 @@ export const loginUsuario = (email, password) => {
 
   return null;
 };
+
+/**
+ * Valida si un producto está agotado
+ */
+export const esProductoAgotado = (producto) => {
+  return !producto || producto.stock <= 0;
+};
+
+// Valida si un producto tiene stock crítico
+export const tieneStockCritico = (producto) => {
+  if (!producto) return false;
+  return Number(producto.stock) <= Number(producto.stockCritico || 3);
+};
+
+// Valida los datos del formulario de administración
+export const validarFormularioProducto = (form) => {
+  if (!form.nombre || form.nombre.trim() === '') return 'El nombre es obligatorio.';
+  if (isNaN(form.precio) || Number(form.precio) <= 0) return 'El precio debe ser un número mayor a 0.';
+  if (isNaN(form.stock) || Number(form.stock) < 0) return 'El stock no puede ser negativo.';
+  return null; // Null significa que NO hay errores
+};
