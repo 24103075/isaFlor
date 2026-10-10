@@ -1,0 +1,16 @@
+/* src/styles/pages/Admin.css */
+
+.admin-title, .admin-card-title {
+  color: var(--isaflor-verde-bosque, #2D5A27);
+}
+
+.table-warning-soft {
+  background-color: #FFF9E6 !important;
+}
+
+.admin-container .table thead th {
+  color: var(--isaflor-texto-oscuro, #2C3E35);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

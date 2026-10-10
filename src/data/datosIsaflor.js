@@ -121,3 +121,19 @@ export const guardarOrden = (orden) => {
   localStorage.setItem('isaflor_ordenes', JSON.stringify(ordenes));
   return nuevaOrden;
 };
+
+export const INFO_CONTACTO = {
+  telefono: "+56 9 61991487",
+  correo: "contacto@isaflor.cl",
+  direccion: "Manantiales sitio 7, Melipilla",
+  horario: "Lunes a Sábado, 09:00 a 18:00",
+  instagram: "https://www.instagram.com/isa_flor.manantiales?stkn=OXRzMWd5eDE1Nm1p&utm_source=qr/",
+  whatsapp: "https://wa.me/56961991487"
+};
+
+export const MENU_NAVEGACION = [{nombre: 'INICIO', ruta: '/'}, 
+                                {nombre: 'CATÁLOGO', ruta: '/catalogo'}, 
+                                {nombre: 'NOSOTROS', ruta: '/nosotros'}, 
+                                {nombre: 'CONTACTO', ruta: '/contacto'}
+                               /* {nombre: 'OFERTAS', ruta: '/ofertas'}*/] 
+                               /* Futura implementacion */

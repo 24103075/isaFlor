@@ -1,71 +1,98 @@
-/* src/styles/global.css */
+/* ===================================================
+   PALETA DE COLORES PASTEL FLORAL - ISAFLOR
+   =================================================== */
+:root {
+  /* Tonos Principales */
+  --isaflor-rosa-principal: #E882A6;   /* Botones y acentos destacados */
+  --isaflor-rosa-claro: #FCE4EC;       /* Fondos suaves y badges */
+  --isaflor-lavanda: #A8B1E8;          /* Bordes y elementos secundarios */
+  --isaflor-azul-soft: #BCE0F5;        /* Banners y tarjetas */
+  --isaflor-verde-eucalipto: #488B7A;  /* Botones de éxito, compra y precios */
+  --isaflor-verde-suave: #D4EDDA;      /* Alertas y confirmaciones */
+  
+  /* Tonos Neutros y Estructura */
+  --isaflor-texto: #2C3E35;            /* Texto oscuro legible */
+  --isaflor-cafe-suave: #5D4037;       /* Encabezados e identidad */
+  --isaflor-fondo-global: #FAF8F9;     /* Fondo suave neutro para la app */
+}
 
-
+/* ===================================================
+   RESET Y CONFIGURACIÓN BASE
+   =================================================== */
 html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden;
-  background-color: #F8D7DA !important; 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: var(--isaflor-fondo-global);
+  color: var(--isaflor-texto);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 #root {
   width: 100%;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-/* 2. Encabezado (Header) - Rosa pastel suave */
-.navbar, 
-nav.navbar,
-.bg-success {
-  background-color: #f3e9a5 !important; /* Cambia el fondo negro por Rosa Pastel */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.navbar .nav-link,
-.navbar-brand {
-  color: #5D4037 !important; /* Texto café suave para buen contraste */
+/* ===================================================
+   CLASES UTILITARIAS PERSONALIZADAS ISAFLOR
+   =================================================== */
+
+/* Textos */
+.text-isaflor-primary {
+  color: var(--isaflor-rosa-principal) !important;
+}
+
+.text-isaflor-dark {
+  color: var(--isaflor-cafe-suave) !important;
+}
+
+.text-isaflor-green {
+  color: var(--isaflor-verde-eucalipto) !important;
+}
+
+/* Fondos */
+.bg-isaflor-soft {
+  background-color: var(--isaflor-rosa-claro) !important;
+}
+
+.bg-isaflor-blue {
+  background-color: var(--isaflor-azul-soft) !important;
+}
+
+/* Botón Principal (Rosa Floral) */
+.btn-isaflor {
+  background-color: var(--isaflor-rosa-principal);
+  color: #ffffff;
+  border: none;
   font-weight: 600;
+  transition: all 0.2s ease-in-out;
 }
 
-.navbar .nav-link:hover {
-  color: #000000 !important;
+.btn-isaflor:hover {
+  background-color: #d16b90;
+  color: #ffffff;
 }
 
-/* 3. Cuadro de Bienvenida (Hero) - Verde Menta pastel */
-.bg-success.p-5, 
-div.bg-success,
-.p-5.mb-4.bg-success {
-  background-color: #f3e9a5 !important; 
-  color: #000!important;
-  border-radius: 16px;
-  text-align: center !important;
+/* Botón de Acción / Compra (Verde Eucalipto) */
+.btn-isaflor-success {
+  background-color: var(--isaflor-verde-eucalipto);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
 }
 
-.bg-success.p-5 h1,
-.bg-success.p-5 p,
-div.bg-success h1,
-div.bg-success p {
-  color:#5D4037 !important;
+.btn-isaflor-success:hover {
+  background-color: #386e60;
+  color: #ffffff;
 }
 
-/* 4. Botones y Badges destacados */
-.btn-success {
-  background-color: #f3e9a5 !important;
-  border-color: #f3e9a5 !important;
-  color: #5D4037 !important;
-  font-weight: bold;
-}
-
-.btn-success:hover {
-  background-color: #E8A5A5 !important;
-  border-color: #E8A5A5 !important;
-  color: #ffffff !important;
-}
-
-.bg-danger, .badge.bg-danger {
-  background-color: #E8A5A5 !important;
-  color: #0000 !important;
+/* Tarjetas y Contenedores */
+.card-isaflor {
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }

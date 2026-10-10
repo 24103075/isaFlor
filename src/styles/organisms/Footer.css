@@ -32,3 +32,12 @@
 .isaflor-footer__redes a:hover {
   text-decoration: underline;
 }
+
+.isaflor-footer {
+  background-color: var(--color-rosado, #F8D7DA);
+  color: var(--color-texto, #292523);
+}
+
+.text-isaflor {
+  color: var(--color-primario, #5D4037);
+}
