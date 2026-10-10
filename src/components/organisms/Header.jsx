@@ -1,17 +1,17 @@
 // src/components/organisms/Header.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import '../../styles/organisms/Header.css';
 import logo from '../../assets/logo.webp';
 
 const Header = ({ cartCount = 0, usuario, onLogout }) => {
   return (
     <nav className="navbar navbar-expand-lg isaflor-header shadow-sm">
-      <div className="container-fluid px-4">
+      <div className="container-fluid isaflor-header__container">
         <Link className="navbar-brand isaflor-header__brand" to="/">
           <img src={logo} alt="Logo de IsaFlor" className="isaflor-header__logo" />
-          <span>IsaFlor</span>
-      </Link>
+          <span className="isaflor-header__brand-text">IsaFlor</span>
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -23,9 +23,9 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 isaflor-header__nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Inicio</Link>
+              <Link className="nav-link isaflor-header__nav-link" to="/">Inicio</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/catalogo">Catálogo</Link>
@@ -45,7 +45,7 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
             )}
           </ul>
 
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 isaflor-header__actions">
             <Link to="/carrito" className="btn isaflor-header__action position-relative">
               🛒 Carrito
               {cartCount > 0 && (
@@ -76,7 +76,7 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
               <div className="d-flex gap-2">
                 <Link to="/login" className="btn isaflor-header__action">                  Ingresar
                 </Link>
-                <Link to="/registro" className="btn isaflor-header__action">
+                <Link to="/registro" className="btn isaflor-header__action isaflor-header__action--primary">
                   Registrarse
                 </Link>
               </div>

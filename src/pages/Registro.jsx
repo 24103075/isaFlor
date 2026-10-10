@@ -29,7 +29,7 @@ const Registro = ({ setUsuario }) => {
     setError('');
     setExito('');
 
-    // Validaciones básicas de campos
+    
     if (!formData.nombre.trim() || !formData.email.trim() || !formData.password) {
       setError('Por favor, completa todos los campos.');
       return;
@@ -70,7 +70,6 @@ const Registro = ({ setUsuario }) => {
   return (
     <div className="container py-5">
       <div className="row justify-content-center">
-        {/* Ampliamos a col-lg-7 para dar mejor espacio horizontal */}
         <div className="col-12 col-md-10 col-lg-7">
           <div className="card shadow-sm border-0 rounded-4 overflow-hidden">
             <div className="p-4 text-center" style={{ backgroundColor: '#aa9de4' }}>
@@ -85,7 +84,6 @@ const Registro = ({ setUsuario }) => {
               {exito && <div className="alert alert-success py-2 small">{exito}</div>}
 
               <form onSubmit={handleSubmit}>
-                {/* FILA 1: Nombre y Correo */}
                 <div className="row g-3 mb-3">
                   <div className="col-12 col-md-6">
                     <label className="form-label fw-semibold small">Nombre Completo</label>
@@ -114,7 +112,6 @@ const Registro = ({ setUsuario }) => {
                   </div>
                 </div>
 
-                {/* FILA 2: Contraseña y Confirmar Contraseña */}
                 <div className="row g-3 mb-4">
                   <div className="col-12 col-md-6">
                     <label className="form-label fw-semibold small">Contraseña</label>

@@ -6,16 +6,17 @@ import { formatearPrecio } from '../../utils/validaciones';
 
 const ProductCard = ({ producto, onAddToCart }) => {
   return (
-    <div className="card h-100 shadow-sm border-0">
-      <div className="position-relative">
+    <div className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+      <div className="position-relative bg-light" style={{ height: '275px' }}>
         <img
           src={producto.imagen}
-          className="card-img-top"
+          className="w-100 h-100"
           alt={producto.nombre}
-          style={{ height: '200px', objectFit: 'cover' }}
+          style={{ objectFit: 'contain', objectPosition: 'center' }}
+          loading="block"
         />
         {producto.enOferta && (
-          <Badge bg="danger" className="position-absolute top-0 start-0 m-2">
+          <Badge bg="warning" className="position-absolute top-0 start-0 m-2">
             Oferta
           </Badge>
         )}
@@ -25,13 +26,19 @@ const ProductCard = ({ producto, onAddToCart }) => {
           </Badge>
         )}
       </div>
+
       <div className="card-body d-flex flex-column">
-        <small className="text-muted mb-1">{producto.categoria}</small>
-        <h5 className="card-title text-truncate">{producto.nombre}</h5>
+        <small className="text-muted mb-1 text-uppercase fw-semibold" style={{ fontSize: '0.75rem' }}>
+          {producto.categoria}
+        </small>
+        <h5 className="card-title text-truncate fw-bold" style={{ color: '#292523' }}>
+          {producto.nombre}
+        </h5>
         <p className="card-text text-muted small flex-grow-1">
           {producto.descripcion}
         </p>
-        <div className="d-flex align-items-center justify-content-between mt-3">
+
+        <div className="d-flex align-items-center justify-content-between mt-3 pt-2 border-top">
           <span className="fs-5 fw-bold text-success">
             {formatearPrecio(producto.precio)}
           </span>
@@ -39,6 +46,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
             variant="primary"
             onClick={() => onAddToCart(producto)}
             disabled={producto.stock === 0}
+            className="rounded-pill px-3"
           >
             {producto.stock === 0 ? 'Agotado' : 'Añadir'}
           </Button>
