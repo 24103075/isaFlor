@@ -3,68 +3,37 @@ import React, { useState } from 'react';
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import { getProductos, guardarProductos, getCategorias } from '../data/datosIsaflor';
-import { formatearPrecio, tieneStockCritico, validarFormularioProducto } from '../utils/validaciones';
+import { REGISTRO_PRODUCTO,formatearPrecio,tieneStockCritico,validarFormularioProducto,procesarGuardarProducto, eliminarProductoPorId} from '../utils/validaciones';
 import '../styles/pages/Admin.css';
 
 const Admin = () => {
   const [productos, setProductos] = useState(getProductos());
   const [errorForm, setErrorForm] = useState('');
-  const categorias = getCategorias();
-
-  // Estado inicial del formulario
-  const estadoInicialForm = {
-    id: null,
-    nombre: '',
-    categoria: 'Rosas',
-    precio: '',
-    stock: '',
-    stockCritico: 3,
-    descripcion: '',
-    imagen: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500',
-    enOferta: false
-  };
-
-  const [form, setForm] = useState(estadoInicialForm);
+  const [form, setForm] = useState(REGISTRO_PRODUCTO);
   const [editando, setEditando] = useState(false);
 
-  // Manejador centralizado para los cambios de inputs
+  const categorias = getCategorias();
+
+  // Captura los cambios de los inputs en el estado del formulario
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
+    setForm(prev => ({
+      ...prev,
       [name]: type === 'checkbox' ? checked : value
-    });
+    }));
   };
 
-  // Guardar o Actualizar Producto
+  // Procesa el formulario delegando la regla a validaciones.js
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // 1. Usamos nuestra función de validación
     const error = validarFormularioProducto(form);
     if (error) {
       setErrorForm(error);
       return;
     }
-    setErrorForm(''); // Limpiamos errores anteriores
 
-    let listaActualizada;
-    if (editando) {
-      listaActualizada = productos.map(p => 
-        p.id === form.id 
-          ? { ...form, precio: Number(form.precio), stock: Number(form.stock) } 
-          : p
-      );
-    } else {
-      const nuevoProducto = {
-        ...form,
-        id: Date.now(),
-        precio: Number(form.precio),
-        stock: Number(form.stock)
-      };
-      listaActualizada = [...productos, nuevoProducto];
-    }
-
+    const listaActualizada = procesarGuardarProducto(productos, form, editando);
     setProductos(listaActualizada);
     guardarProductos(listaActualizada);
     resetForm();
@@ -78,19 +47,18 @@ const Admin = () => {
 
   const handleEliminar = (id) => {
     if (window.confirm('¿Seguro que deseas eliminar este producto?')) {
-      const listaFiltrada = productos.filter(p => p.id !== id);
+      const listaFiltrada = eliminarProductoPorId(productos, id);
       setProductos(listaFiltrada);
       guardarProductos(listaFiltrada);
     }
   };
 
   const resetForm = () => {
-    setForm(estadoInicialForm);
+    setForm(REGISTRO_PRODUCTO);
     setEditando(false);
     setErrorForm('');
   };
 
-  // Obtenemos directamente la lista de productos con stock crítico usando el helper
   const productosStockBajo = productos.filter(p => tieneStockCritico(p));
 
   return (
@@ -99,7 +67,7 @@ const Admin = () => {
         Panel de Administración de Inventario
       </h2>
 
-      {/* Banner de alerta de Stock Crítico */}
+      {/* Banner de alertas de Stock Crítico */}
       {productosStockBajo.length > 0 && (
         <div className="alert alert-warning shadow-sm mb-4 border-0 rounded-3" role="alert">
           <h5 className="alert-heading fw-bold mb-2">
@@ -160,13 +128,17 @@ const Admin = () => {
                 <label className="form-label small fw-semibold">Descripción</label>
                 <textarea name="descripcion" value={form.descripcion} onChange={handleChange} className="form-control form-control-sm" rows="2"></textarea>
               </div>
+              
+              <div className="mb-2">
+                <label className="form-label small fw-semibold">URL de la Imagen (Foto)</label>
+                <input type="url" name="imagen" value={form.imagen} onChange={handleChange} className="form-control form-control-sm" placeholder="URL de la imagen" required />
+              </div>
 
               <div className="form-check mb-3">
                 <input type="checkbox" name="enOferta" checked={form.enOferta} onChange={handleChange} className="form-check-input" id="checkOferta" />
                 <label className="form-check-label small" htmlFor="checkOferta">En Oferta</label>
               </div>
 
-              {/* Uso del componente atómico Button */}
               <Button type="submit" variant="isaflor" className="w-100 mb-2 py-2 fw-semibold">
                 {editando ? 'Guardar Cambios' : 'Crear Producto'}
               </Button>
@@ -206,7 +178,6 @@ const Admin = () => {
                           <td className="fw-semibold">{formatearPrecio(p.precio)}</td>
                           <td>{p.stock}</td>
                           <td>
-                            {/* Reuso del componente atómico Badge */}
                             {esCritico ? (
                               <Badge bg="warning" className="text-dark">Stock Bajo</Badge>
                             ) : (
@@ -214,8 +185,24 @@ const Admin = () => {
                             )}
                           </td>
                           <td className="text-end pe-3">
-                            <button className="btn btn-sm btn-outline-primary me-2 border-0" title="Editar" onClick={() => handleEditar(p)}>✏️</button>
-                            <button className="btn btn-sm btn-outline-danger border-0" title="Eliminar" onClick={() => handleEliminar(p.id)}>🗑️</button>
+                            <Button 
+                              type="button" 
+                              variant="outline-primary" 
+                              className="btn-sm me-2 border-0" 
+                              title="Editar" 
+                              onClick={() => handleEditar(p)}
+                            >
+                              ✏️
+                            </Button>
+                            <Button 
+                              type="button" 
+                              variant="outline-danger" 
+                              className="btn-sm border-0" 
+                              title="Eliminar" 
+                              onClick={() => handleEliminar(p.id)}
+                            >
+                              🗑️
+                            </Button>
                           </td>
                         </tr>
                       );

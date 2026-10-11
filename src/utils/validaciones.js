@@ -121,3 +121,69 @@ export const validarFormularioProducto = (form) => {
   if (isNaN(form.stock) || Number(form.stock) < 0) return 'El stock no puede ser negativo.';
   return null; // Null significa que NO hay errores
 };
+
+export const CONFIG_CARRITO  = {
+  COSTO_ENVIO:0,
+  TEXTO_ENVIO_GRATIS:"Gratis",
+  MENSAJE_CARRITO_VACIO: "Tu carrito esta vacio",
+  SUBTITULO_CARRITO_VACIO:"Aun no añades productos a tu carrito",
+}
+ // Suma el precio por la cantidad de productos
+ export const calcularTotalCarrito = (carrito = []) => {
+  return carrito.reduce((acc, item) => acc + (Number(item.precio) * Number(item.cantidad)), 0);
+ }
+ 
+ //Aumenta o reduce la cantidad de productos respetando el limite
+export const actualizarCantidadItem = (carrito,id,delta) =>{
+  return carrito.map(item => {
+    if(item.id === id){
+      const nuevaCantidad = item.cantidad + delta;
+      return nuevaCANTIDAD > 0 ? {...item, cantidad: nuevaCantidad} : item;
+    }
+
+    return item;
+  });
+}
+
+//Elimina un producto por su id
+export const eliminarItemCarrito = (carrito,id) => {
+  return carrito.filter(item => item.id !== id);
+}
+
+
+//  Formulario de registro de producto
+  export const REGISTRO_PRODUCTO = {
+    id: null,
+    nombre: '',
+    categoria: 'Rosas',
+    precio: '',
+    stock: '',
+    stockCritico: 3,
+    descripcion: '',
+    imagen: '',
+    enOferta: false
+  };
+
+  // Actualiza o crea un producto en la lista
+export const procesarGuardarProducto = (productos, form, editando) => {
+  if (editando) {
+    return productos.map(p => 
+      p.id === form.id 
+        ? { ...form, precio: Number(form.precio), stock: Number(form.stock) } 
+        : p
+    );
+  }
+  
+  const nuevoProducto = {
+    ...form,
+    id: Date.now(),
+    precio: Number(form.precio),
+    stock: Number(form.stock)
+  };
+  return [...productos, nuevoProducto];
+};
+
+// Filtra la lista eliminando por ID
+export const eliminarProductoPorId = (productos, id) => {
+  return productos.filter(p => p.id !== id);
+};
