@@ -1,16 +1,38 @@
 /* src/styles/pages/Admin.css */
 
-.admin-title, .admin-card-title {
+/* Títulos y colores corporativos */
+.admin-title, 
+.admin-card-title {
   color: var(--isaflor-verde-bosque, #2D5A27);
 }
 
+/* Alertas de stock bajo en la tabla */
 .table-warning-soft {
   background-color: #FFF9E6 !important;
 }
 
+/* Encabezado de la ta  bla de inventario */
 .admin-container .table thead th {
   color: var(--isaflor-texto-oscuro, #2C3E35);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  background-color: #f8f9fa;
+}
+
+/* Previsualización de imagen en el formulario de creación */
+.admin-img-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px dashed #ced4da;
+}
+
+/* Miniaturas de productos dentro de la tabla */
+.admin-thumb-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 0.375rem;
 }

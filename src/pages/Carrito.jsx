@@ -1,47 +1,51 @@
 // src/pages/Carrito.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { formatearPrecio } from '../utils/validaciones';
+import Button from '../components/atoms/Button';
+import { 
+  CONFIG_CARRITO, 
+  formatearPrecio, 
+  calcularTotalCarrito, 
+  actualizarCantidadItem, 
+  eliminarItemCarrito 
+} from '../utils/validaciones';
+import '../styles/pages/Carrito.css'; // Importación directa del CSS
 
-const Carrito = ({ cart, setCart }) => {
+const Carrito = ({ cart = [], setCart }) => {
   const navigate = useNavigate();
 
-  const handleCantidad = (id, delta) => {
-    setCart(prevCart =>
-      prevCart.map(item => {
-        if (item.id === id) {
-          const nuevaCant = item.cantidad + delta;
-          return nuevaCant > 0 ? { ...item, cantidad: nuevaCant } : item;
-        }
-        return item;
-      })
-    );
-  };
+  // Asegura que siempre sea un arreglo para evitar pantalla en blanco
+  const listaCarrito = Array.isArray(cart) ? cart : [];
 
-  const handleEliminar = (id) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== id));
-  };
+  const handleCantidad = (id, delta) => setCart(prev => actualizarCantidadItem(prev, id, delta));
+  const handleEliminar = (id) => setCart(prev => eliminarItemCarrito(prev, id));
 
-  const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  const total = calcularTotalCarrito(listaCarrito);
 
-  if (cart.length === 0) {
+  if (listaCarrito.length === 0) {
     return (
-      <div className="text-center py-5">
-        <h2 className="mb-3">Tu Carrito está vacío 🛒</h2>
-        <p className="text-muted">Aún no has añadido productos al carrito.</p>
-        <Link to="/catalogo" className="btn btn-success mt-3">
-          Explorar Catálogo
+      <div className="text-center py-5 isaflor-carrito-vacio">
+        <h2 className="mb-3 fw-bold text-isaflor-green">{CONFIG_CARRITO.MENSAJE_CARRITO_VACIO}</h2>
+        <p className="text-muted">{CONFIG_CARRITO.SUBTITULO_CARRITO_VACIO}</p>
+        <Link to="/catalogo">
+          <Button variant="isaflor" className="mt-3 px-4 py-2">
+            Explorar Catálogo
+          </Button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2 className="mb-4 text-success border-bottom pb-2">Carrito de Compras</h2>
+    <div className="container py-4 isaflor-carrito-container">
+      <h2 className="mb-4 text-isaflor-green border-bottom pb-2 fw-bold">
+        Carrito de Compras
+      </h2>
+      
       <div className="row g-4">
+        {/* Lista de productos */}
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0">
+          <div className="card shadow-sm border-0 rounded-4 overflow-hidden">
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-hover align-middle mb-0">
@@ -51,50 +55,35 @@ const Carrito = ({ cart, setCart }) => {
                       <th>Precio</th>
                       <th>Cantidad</th>
                       <th>Subtotal</th>
-                      <th>Acciones</th>
+                      <th className="text-center">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {cart.map(item => (
+                    {listaCarrito.map(item => (
                       <tr key={item.id}>
                         <td>
                           <div className="d-flex align-items-center gap-3">
                             <img
-                              src={item.imagen}
+                              src={item.imagen || CONFIG_CARRITO.IMAGEN_DEFECTO}
                               alt={item.nombre}
-                              style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                              className="rounded"
+                              className="img-carrito-thumb rounded-3 shadow-sm"
                             />
-                            <span className="fw-bold">{item.nombre}</span>
+                            <span className="fw-semibold text-dark">{item.nombre}</span>
                           </div>
                         </td>
                         <td>{formatearPrecio(item.precio)}</td>
                         <td>
                           <div className="btn-group btn-group-sm" role="group">
-                            <button
-                              className="btn btn-outline-secondary"
-                              onClick={() => handleCantidad(item.id, -1)}
-                            >
-                              -
-                            </button>
-                            <span className="btn btn-light disabled px-3">{item.cantidad}</span>
-                            <button
-                              className="btn btn-outline-secondary"
-                              onClick={() => handleCantidad(item.id, 1)}
-                              disabled={item.cantidad >= item.stock}
-                            >
-                              +
-                            </button>
+                            <button className="btn btn-outline-secondary" onClick={() => handleCantidad(item.id, -1)}>-</button>
+                            <span className="btn btn-light disabled px-3 text-dark fw-bold">{item.cantidad}</span>
+                            <button className="btn btn-outline-secondary" onClick={() => handleCantidad(item.id, 1)} disabled={item.cantidad >= item.stock}>+</button>
                           </div>
                         </td>
-                        <td className="fw-bold">{formatearPrecio(item.precio * item.cantidad)}</td>
-                        <td>
-                          <button
-                            className="btn btn-outline-danger btn-sm"
-                            onClick={() => handleEliminar(item.id)}
-                          >
-                            🗑️
-                          </button>
+                        <td className="fw-bold text-isaflor-green">
+                          {formatearPrecio(item.precio * item.cantidad)}
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-danger btn-sm border-0" onClick={() => handleEliminar(item.id)} title="Eliminar">🗑️</button>
                         </td>
                       </tr>
                     ))}
@@ -105,29 +94,27 @@ const Carrito = ({ cart, setCart }) => {
           </div>
         </div>
 
+        {/* Resumen de Compra */}
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0">
-            <div className="card-body">
-              <h5 className="card-title mb-3">Resumen de Compra</h5>
+          <div className="card shadow-sm border-0 rounded-4">
+            <div className="card-body p-4">
+              <h5 className="card-title mb-3 fw-bold text-isaflor-green">Resumen de Compra</h5>
               <div className="d-flex justify-content-between mb-2">
-                <span>Subtotal:</span>
-                <span>{formatearPrecio(total)}</span>
+                <span className="text-muted">Subtotal:</span>
+                <span className="fw-semibold">{formatearPrecio(total)}</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
-                <span>Envío:</span>
-                <span className="text-success fw-bold">Gratis</span>
+                <span className="text-muted">Envío:</span>
+                <span className="text-success fw-bold">{CONFIG_CARRITO.TEXTO_ENVIO_GRATIS}</span>
               </div>
-              <hr />
+              <hr className="my-3" />
               <div className="d-flex justify-content-between mb-4 fs-5 fw-bold">
                 <span>Total:</span>
-                <span className="text-success">{formatearPrecio(total)}</span>
+                <span className="text-isaflor-green">{formatearPrecio(total)}</span>
               </div>
-              <button
-                className="btn btn-success w-100 py-2 fw-bold"
-                onClick={() => navigate('/checkout')}
-              >
+              <Button variant="isaflor" className="w-100 py-2 fs-6 fw-bold shadow-sm" onClick={() => navigate('/checkout')}>
                 Proceder al Pago 💳
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,0 +1,49 @@
+/* src/styles/pages/Carrito.css */
+
+/* Contenedor general de la página */
+.isaflor-carrito-container {
+  min-height: 75vh;
+}
+
+/* Título de la página y subtítulos del resumen */
+.text-isaflor-green {
+  color: var(--isaflor-verde-bosque, #2D5A27);
+}
+
+/* Estilo para las miniaturas de productos en la tabla */
+.img-carrito-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+/* Encabezado de la tabla de productos */
+.isaflor-carrito-container .table thead th {
+  color: var(--isaflor-texto-oscuro, #2C3E35);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: #f8f9fa;
+}
+
+/* Estado de Carrito Vacío */
+.isaflor-carrito-vacio {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* Ajuste responsive para pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+  .img-carrito-thumb {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .isaflor-carrito-container .btn-group-sm > .btn {
+    padding: 0.25rem 0.4rem;
+  }
+}
