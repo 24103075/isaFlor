@@ -8,7 +8,7 @@ import {MENU_NAVEGACION} from '../../data/datosIsaflor';
 const Header = ({ cartCount = 0, usuario, onLogout }) => {
   return (
     <nav className="navbar navbar-expand-lg isaflor-header shadow-sm sticky-top">
-      <div className="container isaflor-header__container">
+      <div className="container-fluid isaflor-header__container px-4 px-xl-5">
         
         {/* Logo y Nombre de Marca */}
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
@@ -85,8 +85,19 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
                   👤 {usuario.nombre}
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                  {usuario.rol === 'CLIENTE' && (
+                    <li>
+                      <Link className="dropdown-item d-flex align-items-center gap-2" to="/perfil">
+                        👤 Mi perfil
+                      </Link>
+                    </li>
+                  )}
+
                   <li>
-                    <button className="dropdown-item text-danger d-flex align-items-center gap-2" onClick={onLogout}>
+                    <button
+                      className="dropdown-item text-danger d-flex align-items-center gap-2"
+                      onClick={onLogout}
+                    >
                       🚪 Cerrar Sesión
                     </button>
                   </li>

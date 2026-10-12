@@ -1,75 +1,123 @@
-/* src/styles/organisms/Header.css */
 
+/* Encabezado principal */
 .isaflor-header {
   background-color: #ffffff;
-  border-bottom: 1px solid var(--isaflor-rosa-suave, #FADEE1);
+  border-bottom: 1px solid var(--isaflor-rosa-claro);
+  padding: 0.5rem 0;
 }
 
+/* Logo de la tienda */
 .isaflor-header__logo {
-  height: 42px;
-  width: auto;
+  height: 100px;
+  width: 100px;
   object-fit: contain;
+  flex-shrink: 0;
+  margin-right: 12px;
 }
 
+
+/* Nombre IsaFlor */
 .isaflor-header__brand-text {
-  font-size: 1.4rem;
+  font-size: 1.80rem;
   font-weight: 700;
-  color: var(--isaflor-verde-bosque, #2D5A27);
+  color: var(--isaflor-verde-eucalipto);
   letter-spacing: -0.5px;
+  white-space: nowrap;
 }
 
-/* Links de Navegación */
+/* Enlaces de navegación */
 .isaflor-header__nav-link {
-  color: var(--isaflor-texto-oscuro, #2C3E35) !important;
+  color: var(--isaflor-texto) !important;
+  font-size: 1.05rem;
   font-weight: 500;
-  padding: 0.5rem 0.8rem;
+  padding: 0.65rem 0.85rem;
   transition: color 0.2s ease;
 }
 
 .isaflor-header__nav-link:hover,
 .isaflor-header__nav-link.active-link {
-  color: var(--isaflor-verde-bosque, #2D5A27) !important;
+  color: var(--isaflor-verde-eucalipto) !important;
   font-weight: 700;
 }
 
+/* Acceso al panel de administración */
 .isaflor-admin-link {
-  color: #D97706 !important; /* Color ámbar discreto para Admin */
+  color: var(--isaflor-cafe-suave) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
 }
 
-/* Botones Personalizados */
+/* Botones personalizados */
 .btn-isaflor-outline {
-  border: 1px solid var(--isaflor-rosa-hover, #F4B8C1);
-  color: var(--isaflor-verde-bosque, #2D5A27);
+  border: 1px solid var(--isaflor-rosa-principal);
+  color: var(--isaflor-cafe-suave);
   background-color: transparent;
   font-weight: 600;
 }
 
 .btn-isaflor-outline:hover {
-  background-color: var(--isaflor-rosa-suave, #FADEE1);
-  color: var(--isaflor-verde-bosque, #2D5A27);
+  background-color: var(--isaflor-rosa-claro);
+  color: var(--isaflor-cafe-suave);
 }
 
 .btn-isaflor-primary {
-  background-color: var(--isaflor-verde-bosque, #2D5A27);
+  background-color: var(--isaflor-verde-eucalipto);
   color: #ffffff;
   border: none;
   font-weight: 600;
 }
 
 .btn-isaflor-primary:hover {
-  background-color: #1e3d1a;
+  background-color: #386e60;
   color: #ffffff;
 }
 
 .btn-isaflor-user {
-  background-color: var(--isaflor-verde-eucalipto, #EAF2ED);
-  color: var(--isaflor-verde-bosque, #2D5A27);
-  border: 1px solid #D8E6DC;
+  background-color: var(--isaflor-verde-suave);
+  color: var(--isaflor-texto);
+  border: 1px solid var(--isaflor-verde-eucalipto);
   font-weight: 600;
 }
 
-/* Badge del Carrito */
+/* Insignia del carrito */
 .isaflor-badge {
-  background-color: var(--isaflor-rosa-principal, #E882A6) !important;
+  background-color: var(--isaflor-rosa-principal) !important;
   color: #ffffff;
+}
+
+/* Ajustes para celulares */
+@media (max-width: 576px) {
+  .isaflor-header__logo {
+    height: 44px;
+  }
+
+  .isaflor-header__brand-text {
+    font-size: 1.4rem;
+  }
+
+  .isaflor-header__nav-link {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+}
+
+/* Distribución del encabezado */
+.isaflor-header__container {
+  width: 100%;
+}
+
+/* Separación entre logo y nombre */
+.isaflor-header .navbar-brand {
+  gap: 12px !important;
+  margin-right: 1.5rem;
+}
+
+/* Separación entre los enlaces */
+.isaflor-header__nav {
+  gap: 0.25rem;
+}
+
+/* Espacio entre las acciones de usuario */
+.isaflor-header__actions {
+  gap: 0.75rem !important;
 }

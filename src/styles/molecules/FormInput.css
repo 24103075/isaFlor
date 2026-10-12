@@ -1,0 +1,54 @@
+/* Estilos para los campos de los formularios de IsaFlor */
+
+.form-label {
+  color: var(--isaflor-texto);
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #D8DDE0;
+  border-radius: 0.5rem;
+  color: var(--isaflor-texto);
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--isaflor-lavanda);
+  box-shadow: 0 0 0 0.2rem rgba(168, 177, 232, 0.2);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: #89918D;
+  opacity: 1;
+}
+
+.form-check-input {
+  border-color: var(--isaflor-lavanda);
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--isaflor-verde-eucalipto);
+  border-color: var(--isaflor-verde-eucalipto);
+}
+
+.invalid-feedback {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  background-color: var(--isaflor-fondo-global);
+  cursor: not-allowed;
+}
+
+@media (max-width: 576px) {
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+  }
+}

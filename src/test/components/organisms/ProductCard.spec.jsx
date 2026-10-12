@@ -26,9 +26,8 @@ describe('ProductCard Component', () => {
 
   it('llama a la función onAddToCart al hacer click en el botón', () => {
     const onAddToCartSpy = jasmine.createSpy('onAddToCart');
-    const { getByText } = render(<ProductCard producto={productoEjemplo} onAddToCart={onAddToCartSpy} />);
-   
-    const button = getByText('Añadir');
+    const { getByRole } = render(<ProductCard producto={productoEjemplo} onAddToCart={onAddToCartSpy} />);
+    const button = getByRole('button', { name: /Añadir/ });
     fireEvent.click(button);
     
     expect(onAddToCartSpy).toHaveBeenCalledWith(productoEjemplo);

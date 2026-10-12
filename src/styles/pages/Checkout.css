@@ -1,0 +1,57 @@
+
+/* Contenedor principal del checkout */
+.checkout-contenedor {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Títulos de las secciones */
+.checkout-titulo {
+  color: var(--isaflor-verde-eucalipto);
+  font-weight: 700;
+}
+
+/* Tarjeta del resumen del pedido */
+.checkout-resumen {
+  background-color: #ffffff;
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 0.75rem;
+}
+
+/* Título del resumen */
+.checkout-resumen-titulo {
+  color: var(--isaflor-cafe-suave);
+  font-weight: 700;
+}
+
+/* Tarjeta de la boleta */
+.checkout-boleta {
+  max-width: 600px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+/* Detalles de la boleta */
+.checkout-boleta-detalles {
+  padding: 1rem;
+  background-color: var(--isaflor-rosa-claro);
+  border-radius: 0.5rem;
+  text-align: left;
+}
+
+/* Total de la compra */
+.checkout-total {
+  color: var(--isaflor-verde-eucalipto);
+  font-weight: 700;
+}
+
+/* Ajustes para celulares */
+@media (max-width: 576px) {
+  .checkout-boleta {
+    padding: 1rem;
+  }
+}

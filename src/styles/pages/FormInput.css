@@ -1,0 +1,70 @@
+/* Estilos para los campos de los formularios de IsaFlor */
+
+/* Etiquetas de los campos */
+.form-label {
+  color: var(--isaflor-texto);
+}
+
+/* Campos de texto, números, fechas y áreas de texto */
+.form-control {
+  border: 1px solid #D8DDE0;
+  border-radius: 0.5rem;
+  color: var(--isaflor-texto);
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Selector de opciones */
+.form-select {
+  border: 1px solid #D8DDE0;
+  border-radius: 0.5rem;
+  color: var(--isaflor-texto);
+  background-color: #fff;
+}
+
+/* Cuando el usuario selecciona un campo */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--isaflor-lavanda);
+  box-shadow: 0 0 0 0.2rem rgba(168, 177, 232, 0.2);
+  outline: none;
+}
+
+/* Texto de ayuda dentro de los campos */
+.form-control::placeholder {
+  color: #89918D;
+  opacity: 1;
+}
+
+/* Casilla de selección */
+.form-check-input {
+  border-color: var(--isaflor-lavanda);
+  cursor: pointer;
+}
+
+/* Casilla seleccionada */
+.form-check-input:checked {
+  background-color: var(--isaflor-verde-eucalipto);
+  border-color: var(--isaflor-verde-eucalipto);
+}
+
+/* Mensajes de error */
+.invalid-feedback {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Campos deshabilitados */
+.form-control:disabled,
+.form-select:disabled {
+  background-color: var(--isaflor-fondo-global);
+  cursor: not-allowed;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 576px) {
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+  }
+}

@@ -22,8 +22,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
 
         {/* Badges Flotantes */}
         <div className="position-absolute top-0 start-0 m-2 d-flex flex-column gap-1">
-          {producto.enOferta && (
-            <Badge bg="isaflor-rose" className="shadow-sm">
+          {producto.enOferta && (<Badge bg="isaflor-rose" className="shadow-sm">
               Oferta
             </Badge>
           )}
@@ -32,8 +31,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
               Últimas Unidades
             </Badge>
           )}
-          {agotado && (
-            <Badge bg="secondary" className="shadow-sm">
+          {agotado && (<Badge bg="secondary" className="shadow-sm">
               Agotado
             </Badge>
           )}

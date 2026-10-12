@@ -1,13 +1,16 @@
+
+/* Contenedor principal del Footer */
 .isaflor-footer {
-  background-color: #f3e9a5;
-  color: #18334b;
+  background-color: var(--isaflor-rosa-claro);
+  color: var(--isaflor-texto);
   text-align: left;
   font-size: 14px;
 }
 
+/* Distribución de los detalles del Footer */
 .isaflor-footer__detalles {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 10px 12px;
@@ -17,6 +20,7 @@
   margin: 0;
 }
 
+/* Enlaces a redes sociales */
 .isaflor-footer__redes {
   display: flex;
   justify-content: center;
@@ -33,11 +37,7 @@
   text-decoration: underline;
 }
 
-.isaflor-footer {
-  background-color: var(--color-rosado, #F8D7DA);
-  color: var(--color-texto, #292523);
-}
-
+/* Texto con el color café corporativo */
 .text-isaflor {
-  color: var(--color-primario, #5D4037);
+  color: var(--isaflor-cafe-suave);
 }

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import FormInput from '../components/molecules/FormInput';
 import { validarEmail, loginUsuario } from '../utils/validaciones';
+import Button from '../components/atoms/Button';
+import '../styles/pages/Login.css';
 
 const Login = ({ setUsuario }) => {
   const navigate = useNavigate();
@@ -16,6 +18,8 @@ const Login = ({ setUsuario }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorLogin('');
+
     const nuevosErrores = {};
 
     if (!validarEmail(formData.email)) nuevosErrores.email = 'Ingrese un correo válido.';
@@ -37,12 +41,12 @@ const Login = ({ setUsuario }) => {
   };
 
   return (
-    <div className="row justify-content-center my-4">
+    <div className="row justify-content-center login-contenedor">
       <div className="col-md-5">
-        <div className="card shadow-sm border-0 p-4">
-          <h3 className="text-center text-success mb-4">Iniciar Sesión</h3>
+        <div className="card login-tarjeta">
+          <h3 className="login-titulo">Iniciar Sesión</h3>
 
-          {errorLogin && <div className="alert alert-danger">{errorLogin}</div>}
+          {errorLogin && (<div className="alert alert-danger login-error">{errorLogin}</div>)}
 
           <form onSubmit={handleSubmit} noValidate>
             <FormInput
@@ -64,13 +68,13 @@ const Login = ({ setUsuario }) => {
               error={errores.password}
               required
             />
-            <button type="submit" className="btn btn-success w-100 py-2 fw-bold mt-3">
+            <Button type="submit" variant="success" className="w-100 py-2 fw-bold mt-3" >
               Ingresar
-            </button>
+            </Button>
           </form>
 
           <div className="text-center mt-3">
-            <small className="text-muted d-block mb-2">
+            <small className="login-demo">
               <strong>Admin Demo:</strong> admin@isaflor.cl / admin123
             </small>
           </div>

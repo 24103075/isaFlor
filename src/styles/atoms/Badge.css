@@ -1,0 +1,22 @@
+/* Estilos para las etiquetas de IsaFlor */
+
+.badge-isaflor {
+  background-color: var(--isaflor-rosa-principal);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+/* Etiqueta de stock disponible */
+.badge-isaflor-success {
+  background-color: var(--isaflor-verde-suave);
+  color: var(--isaflor-texto);
+}
+
+/* Etiqueta de stock bajo */
+.badge-isaflor-warning {
+  background-color: var(--isaflor-rosa-claro);
+  color: var(--isaflor-cafe-suave);
+}

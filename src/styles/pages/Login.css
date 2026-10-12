@@ -1,0 +1,44 @@
+
+/* Contenedor de la página de inicio de sesión */
+.login-contenedor {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Tarjeta del formulario */
+.login-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Título del formulario */
+.login-titulo {
+  color: var(--isaflor-verde-eucalipto);
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Mensaje de credenciales incorrectas */
+.login-error {
+  margin-bottom: 1rem;
+}
+
+/* Texto de la cuenta de demostración */
+.login-demo {
+  color: var(--isaflor-texto);
+  text-align: center;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Ajustes para celulares */
+@media (max-width: 576px) {
+  .login-tarjeta {
+    padding: 1.25rem;
+  }
+}

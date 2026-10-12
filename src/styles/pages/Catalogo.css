@@ -1,0 +1,19 @@
+/* Estilos propios de la página Catálogo */
+
+/* Título principal */
+.catalogo-title {
+  color: #198754;
+  font-weight: 700;
+}
+
+/* Contenedor de los filtros */
+.catalogo-filtros {
+  margin-bottom: 1.5rem;
+}
+
+/* Mensaje cuando no hay productos */
+.catalogo-sin-resultados {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #6c757d;
+}

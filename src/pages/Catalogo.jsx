@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import ProductCard from '../components/organisms/ProductCard';
 import { getProductos, getCategorias } from '../data/datosIsaflor';
+import FormInput from '../components/molecules/FormInput';
+import '../styles/pages/Catalogo.css';
 
 const Catalogo = ({ onAddToCart }) => {
   const [categoriaSel, setCategoriaSel] = useState('TODAS');
@@ -18,30 +20,23 @@ const Catalogo = ({ onAddToCart }) => {
 
   return (
     <div>
-      <h2 className="mb-4 text-success border-bottom pb-2">Catálogo de Flores</h2>
+      <h2 className="mb-4 text-success border-bottom pb-2 catalogo-title">
+        Catálogo de Flores
+      </h2>
 
       {/* Filtros */}
-      <div className="row mb-4 g-3">
+      <div className="row g-3 catalogo-filtros">
         <div className="col-md-6">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Buscar por nombre..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
+          <FormInput name="busqueda" placeholder="Buscar por nombre..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
         </div>
         <div className="col-md-6">
-          <select
-            className="form-select"
-            value={categoriaSel}
-            onChange={(e) => setCategoriaSel(e.target.value)}
-          >
-            <option value="TODAS">Todas las Categorías</option>
-            {categorias.map(cat => (
-              <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
-            ))}
-          </select>
+          <FormInput type="select" name="categoriaSel" value={categoriaSel} onChange={(e) => setCategoriaSel(e.target.value)}
+            options={[
+              { value: 'TODAS', label: 'Todas las Categorías' },
+              ...categorias.map(cat => ({value: cat.nombre, 
+                                         label: cat.nombre}))
+            ]}
+          />
         </div>
       </div>
 
@@ -54,8 +49,10 @@ const Catalogo = ({ onAddToCart }) => {
             </div>
           ))
         ) : (
-          <div className="col-12 text-center py-5">
-            <p className="fs-5 text-muted">No se encontraron productos que coincidan con la búsqueda.</p>
+          <div className="col-12 catalogo-sin-resultados">
+            <p className="fs-5 mb-0">
+              No se encontraron productos que coincidan con la búsqueda.
+            </p>
           </div>
         )}
       </div>

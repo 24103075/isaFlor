@@ -114,12 +114,39 @@ export const tieneStockCritico = (producto) => {
   return Number(producto.stock) <= Number(producto.stockCritico || 3);
 };
 
-// Valida los datos del formulario de administración
+// Obtiene los productos que tienen stock crítico
+export const obtenerProductosStockBajo = (productos = []) => {
+  return productos.filter(producto => tieneStockCritico(producto));
+};
+
+//Esta modificación conserva el funcionamiento 
+// actual: devuelve un mensaje cuando encuentra un error y null cuando los datos son válidos.
 export const validarFormularioProducto = (form) => {
-  if (!form.nombre || form.nombre.trim() === '') return 'El nombre es obligatorio.';
-  if (isNaN(form.precio) || Number(form.precio) <= 0) return 'El precio debe ser un número mayor a 0.';
-  if (isNaN(form.stock) || Number(form.stock) < 0) return 'El stock no puede ser negativo.';
-  return null; // Null significa que NO hay errores
+  if (!form.nombre || form.nombre.trim() === '') {
+    return 'El nombre es obligatorio.';
+  }
+
+  if (!form.categoria || form.categoria.trim() === '') {
+    return 'Debes seleccionar una categoría.';
+  }
+
+  if (
+    form.precio === '' ||
+    !Number.isFinite(Number(form.precio)) ||
+    Number(form.precio) <= 0
+  ) {
+    return 'El precio debe ser un número mayor a 0.';
+  }
+
+  if (
+    form.stock === '' ||
+    !Number.isInteger(Number(form.stock)) ||
+    Number(form.stock) < 0
+  ) {
+    return 'El stock debe ser un número entero igual o mayor a 0.';
+  }
+
+  return null;
 };
 
 export const CONFIG_CARRITO  = {
@@ -133,17 +160,24 @@ export const CONFIG_CARRITO  = {
   return carrito.reduce((acc, item) => acc + (Number(item.precio) * Number(item.cantidad)), 0);
  }
  
- //Aumenta o reduce la cantidad de productos respetando el limite
-export const actualizarCantidadItem = (carrito,id,delta) =>{
+ // Actualiza la cantidad de un producto sin superar su stock
+// ni permitir cantidades inferiores a 1.
+export const actualizarCantidadItem = (carrito, id, delta) => {
   return carrito.map(item => {
-    if(item.id === id){
-      const nuevaCantidad = item.cantidad + delta;
-      return nuevaCANTIDAD > 0 ? {...item, cantidad: nuevaCantidad} : item;
+    if (item.id === id) {
+      const nuevaCantidad = Number(item.cantidad) + delta;
+      const stockDisponible = Number(item.stock);
+
+      if (nuevaCantidad < 1 || nuevaCantidad > stockDisponible) {
+        return item;
+      }
+
+      return { ...item, cantidad: nuevaCantidad };
     }
 
     return item;
   });
-}
+};
 
 //Elimina un producto por su id
 export const eliminarItemCarrito = (carrito,id) => {

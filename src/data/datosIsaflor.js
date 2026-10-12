@@ -111,15 +111,47 @@ export const getCategorias = () => categorias;
 
 // Exportación requerida para la generación de boletas
 export const guardarOrden = (orden) => {
+  // Verificar que la orden tenga productos.
+  if (!orden.items || orden.items.length === 0) {
+    throw new Error('No se puede guardar una orden sin productos.');
+  }
+
+  // Verificar que el total sea mayor a cero.
+  if (!Number.isFinite(Number(orden.total)) || Number(orden.total) <= 0) {
+    throw new Error('El total de la compra debe ser mayor a $0.');
+  }
+
+  // Recuperar las órdenes guardadas.
   const ordenes = JSON.parse(localStorage.getItem('isaflor_ordenes')) || [];
+
   const nuevaOrden = {
     ...orden,
     id: `BOL-${Math.floor(100000 + Math.random() * 900000)}`,
-    fecha: new Date().toLocaleDateString('es-CL')
+    fecha: new Date().toLocaleDateString('es-CL'),
+    estado: 'Recibido'
   };
+
+  // Guardar la orden.
   ordenes.push(nuevaOrden);
   localStorage.setItem('isaflor_ordenes', JSON.stringify(ordenes));
+
   return nuevaOrden;
+};
+
+/**
+ * Obtiene las compras de un cliente usando su correo electrónico.
+ */
+export const obtenerComprasCliente = (email) => {
+  if (!email) return [];
+
+  const ordenes = JSON.parse(
+    localStorage.getItem('isaflor_ordenes')
+  ) || [];
+
+  return ordenes.filter(
+    (orden) =>
+      orden.cliente?.email?.toLowerCase() === email.toLowerCase()
+  );
 };
 
 export const INFO_CONTACTO = {
