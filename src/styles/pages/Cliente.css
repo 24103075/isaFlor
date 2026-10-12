@@ -1,0 +1,113 @@
+
+.cliente-contenedor {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.cliente-tarjeta {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(44, 62, 53, 0.08);
+}
+
+.cliente-encabezado {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cliente-titulo {
+  color: var(--isaflor-verde-eucalipto);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.cliente-descripcion {
+  color: var(--isaflor-texto);
+  margin-bottom: 0;
+}
+
+.cliente-subtitulo {
+  color: var(--isaflor-cafe-suave);
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--isaflor-rosa-claro);
+  margin-bottom: 1.25rem;
+}
+
+.cliente-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .cliente-tarjeta {
+    padding: 1.25rem;
+  }
+
+  .cliente-acciones {
+    flex-direction: column;
+  }
+
+  .cliente-acciones button {
+    width: 100%;
+  }
+}
+
+
+.cliente-compras {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--isaflor-rosa-claro);
+}
+
+.cliente-compras-vacio {
+  padding: 1rem;
+  background-color: var(--isaflor-fondo-global);
+  border-radius: 0.5rem;
+  color: var(--isaflor-texto);
+}
+
+.cliente-compra {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--isaflor-rosa-claro);
+  border-radius: 0.75rem;
+  background-color: #fff;
+}
+
+.cliente-compra-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.cliente-compra-estado {
+  padding: 0.35rem 0.65rem;
+  border-radius: 50rem;
+  background-color: var(--isaflor-verde-suave);
+  color: var(--isaflor-texto);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cliente-compra-productos {
+  padding-left: 1.25rem;
+  color: var(--isaflor-texto);
+}
+
+.cliente-compra-total {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--isaflor-rosa-claro);
+  text-align: right;
+  color: var(--isaflor-verde-eucalipto);
+  font-weight: 700;
+}

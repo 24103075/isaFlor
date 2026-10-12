@@ -1,0 +1,32 @@
+
+/* Encabezado del formulario de registro */
+.registro-header {
+  background-color: var(--isaflor-lavanda);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* Título del encabezado */
+.registro-titulo {
+  color: var(--isaflor-texto);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+/* Texto descriptivo */
+.registro-descripcion {
+  color: var(--isaflor-cafe-suave);
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+
+/* Enlace para iniciar sesión */
+.registro-enlace {
+  color: var(--isaflor-cafe-suave);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.registro-enlace:hover {
+  text-decoration: underline;
+}

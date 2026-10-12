@@ -12,8 +12,8 @@ describe('Header Component', () => {
       </BrowserRouter>
     );
 
-    expect(getByText('🌸 IsaFlor')).toBeTruthy();
-    expect(getByText('Inicio')).toBeTruthy();
+    expect(getByText('IsaFlor')).toBeTruthy();
+    expect(getByText('INICIO')).toBeTruthy();
     expect(getByText('3')).toBeTruthy(); // Badge de carrito
   });
 });

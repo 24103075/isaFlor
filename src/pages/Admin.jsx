@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import { getProductos, guardarProductos, getCategorias } from '../data/datosIsaflor';
-import { REGISTRO_PRODUCTO,formatearPrecio,tieneStockCritico,validarFormularioProducto,procesarGuardarProducto, eliminarProductoPorId} from '../utils/validaciones';
+import { REGISTRO_PRODUCTO, formatearPrecio,
+         tieneStockCritico, obtenerProductosStockBajo,
+         validarFormularioProducto, procesarGuardarProducto, eliminarProductoPorId} from '../utils/validaciones';
 import '../styles/pages/Admin.css';
+import FormInput from '../components/molecules/FormInput';
+
 
 const Admin = () => {
   const [productos, setProductos] = useState(getProductos());
@@ -59,7 +63,7 @@ const Admin = () => {
     setErrorForm('');
   };
 
-  const productosStockBajo = productos.filter(p => tieneStockCritico(p));
+  const productosStockBajo = obtenerProductosStockBajo(productos);
 
   return (
     <div className="admin-container container py-3">
@@ -96,49 +100,24 @@ const Admin = () => {
             )}
 
             <form onSubmit={handleSubmit}>
-              <div className="mb-2">
-                <label className="form-label small fw-semibold">Nombre</label>
-                <input type="text" name="nombre" value={form.nombre} onChange={handleChange} className="form-control form-control-sm" required />
-              </div>
+              <FormInput label="Nombre" name="nombre" value={form.nombre} onChange={handleChange} required/>
+              <FormInput type="select" label="Categoría" name="categoria" value={form.categoria} onChange={handleChange} options={categorias.map(c => ({value: c.nombre, label: c.nombre }))}/>
 
-              <div className="mb-2">
-                <label className="form-label small fw-semibold">Categoría</label>
-                <select name="categoria" value={form.categoria} onChange={handleChange} className="form-select form-select-sm">
-                  {categorias.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
-                </select>
-              </div>
-
-              <div className="row g-2 mb-2">
-                <div className="col-6">
-                  <label className="form-label small fw-semibold">Precio ($)</label>
-                  <input type="number" name="precio" value={form.precio} onChange={handleChange} className="form-control form-control-sm" required />
-                </div>
-                <div className="col-6">
-                  <label className="form-label small fw-semibold">Stock</label>
-                  <input type="number" name="stock" value={form.stock} onChange={handleChange} className="form-control form-control-sm" required />
-                </div>
-              </div>
-
-              <div className="mb-2">
-                <label className="form-label small fw-semibold">Stock Crítico</label>
-                <input type="number" name="stockCritico" value={form.stockCritico} onChange={handleChange} className="form-control form-control-sm" required />
-              </div>
-
-              <div className="mb-2">
-                <label className="form-label small fw-semibold">Descripción</label>
-                <textarea name="descripcion" value={form.descripcion} onChange={handleChange} className="form-control form-control-sm" rows="2"></textarea>
-              </div>
               
-              <div className="mb-2">
-                <label className="form-label small fw-semibold">URL de la Imagen (Foto)</label>
-                <input type="url" name="imagen" value={form.imagen} onChange={handleChange} className="form-control form-control-sm" placeholder="URL de la imagen" required />
+            <div className="row g-2 mb-2">
+              <div className="col-6">
+                <FormInput label="Precio ($)" type="number" name="precio" value={form.precio} onChange={handleChange} min="1" step="1" required />
               </div>
 
-              <div className="form-check mb-3">
-                <input type="checkbox" name="enOferta" checked={form.enOferta} onChange={handleChange} className="form-check-input" id="checkOferta" />
-                <label className="form-check-label small" htmlFor="checkOferta">En Oferta</label>
+              <div className="col-6">
+                <FormInput label="Stock" type="number" name="stock" value={form.stock} onChange={handleChange} min="0" step="1" required />
               </div>
+            </div>
 
+              <FormInput label="Stock Crítico" type="number" name="stockCritico" value={form.stockCritico} onChange={handleChange} min="0" step="1" required />
+              <FormInput label="Descripción" type="textarea" name="descripcion" value={form.descripcion} onChange={handleChange} />
+              <FormInput label="URL de la Imagen (Foto)" type="url" name="imagen" value={form.imagen} onChange={handleChange} placeholder="URL de la imagen" required />
+              <FormInput type="checkbox" label="En Oferta" name="enOferta" checked={form.enOferta} onChange={handleChange} className="me-2" />
               <Button type="submit" variant="isaflor" className="w-100 mb-2 py-2 fw-semibold">
                 {editando ? 'Guardar Cambios' : 'Crear Producto'}
               </Button>
@@ -154,9 +133,9 @@ const Admin = () => {
 
         {/* Tabla de Productos */}
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0 rounded-4 overflow-hidden">
+          <div className="card shadow-sm border-0 rounded-4 admin-table-card">
             <div className="card-body p-0">
-              <div className="table-responsive">
+              <div className="table-responsive admin-table-responsive">
                 <table className="table table-hover align-middle mb-0">
                   <thead className="table-light">
                     <tr>

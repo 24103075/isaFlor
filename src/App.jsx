@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Admin from './pages/Admin';
 import  './styles/global.css';
 import Registro from './pages/Registro';
+import Cliente from './pages/Cliente';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -46,6 +47,7 @@ function App() {
           <Route path="/checkout" element={<Checkout cart={cart} setCart={setCart} usuario={usuario} />} />
           <Route path="/login" element={<Login setUsuario={setUsuario} />} />
           <Route path="/registro" element={<Registro setUsuario={setUsuario} />} />
+          <Route path="/perfil" element={usuario && usuario.rol === 'CLIENTE' ? (<Cliente usuario={usuario} />  ) : (<Navigate to="/login" replace />)} />
           
           <Route
             path="/admin"

@@ -2,8 +2,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../components/molecules/FormInput';
-import { validarRut, validarEmail, formatearPrecio } from '../utils/validaciones';
+import { validarRut, validarEmail, formatearPrecio, calcularTotalCarrito } from '../utils/validaciones';
 import { guardarOrden } from '../data/datosIsaflor';
+import Button from '../components/atoms/Button';
+import { regionesYComunas } from '../data/regionesComunas';
+import '../styles/pages/Checkout.css';
+
 
 const Checkout = ({ cart, setCart, usuario }) => {
   const navigate = useNavigate();
@@ -19,7 +23,7 @@ const Checkout = ({ cart, setCart, usuario }) => {
   const [errores, setErrores] = useState({});
   const [ordenCompletada, setOrdenCompletada] = useState(null);
 
-  const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  const total = calcularTotalCarrito(cart); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +31,22 @@ const Checkout = ({ cart, setCart, usuario }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nuevosErrores = {};
+    setErrores({});
+    const nuevosErrores = {}; 
+
+  if (!cart || cart.length === 0) {
+    setErrores({
+      general: 'No puedes realizar una compra con el carrito vacío.'
+    });
+    return;
+  }
+
+  if (total <= 0) {
+    setErrores({
+      general: 'El total de la compra debe ser mayor a $0.'
+    });
+    return;
+  }
 
     if (!formData.nombre.trim()) nuevosErrores.nombre = 'El nombre es obligatorio.';
     if (!validarRut(formData.rut)) nuevosErrores.rut = 'Ingrese un RUT chileno válido (ej: 12345678-9).';
@@ -45,19 +64,23 @@ const Checkout = ({ cart, setCart, usuario }) => {
       total: total
     };
 
-    const ordenGuardada = guardarOrden(nuevaOrden);
-    setOrdenCompletada(ordenGuardada);
-    setCart([]);
+    try {
+      const ordenGuardada = guardarOrden(nuevaOrden);
+      setOrdenCompletada(ordenGuardada);
+      setCart([]);
+    } catch (error) {
+      setErrores({ general: error.message });
+    }
   };
 
   if (ordenCompletada) {
     return (
-      <div className="card shadow border-0 max-w-lg mx-auto my-4 p-4 text-center">
+      <div className="card shadow checkout-boleta">
         <div className="text-success fs-1 mb-2">🎉</div>
         <h3 className="text-success mb-2">¡Compra Realizada con Éxito!</h3>
         <p className="text-muted mb-4">Número de Boleta: <strong>{ordenCompletada.id}</strong></p>
 
-        <div className="text-start bg-light p-3 rounded mb-4">
+        <div className="checkout-boleta-detalles mb-4">
           <h5 className="border-bottom pb-2">Detalles de la Boleta</h5>
           <p className="mb-1"><strong>Cliente:</strong> {ordenCompletada.cliente.nombre}</p>
           <p className="mb-1"><strong>RUT:</strong> {ordenCompletada.cliente.rut}</p>
@@ -73,24 +96,30 @@ const Checkout = ({ cart, setCart, usuario }) => {
               </li>
             ))}
           </ul>
-          <div className="d-flex justify-content-between fs-5 fw-bold text-success">
+          <div className="d-flex justify-content-between fs-5 checkout-total">
             <span>Total Pagado:</span>
             <span>{formatearPrecio(ordenCompletada.total)}</span>
           </div>
         </div>
 
-        <button className="btn btn-success" onClick={() => navigate('/')}>
-          Volver al Inicio
-        </button>
+        <Button variant="success" onClick={() => navigate('/')}>
+        Volver al inicio
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="row g-4">
+    <div className="row g-4 checkout-contenedor">
       <div className="col-lg-7">
-        <h2 className="mb-4 text-success border-bottom pb-2">Datos de Facturación y Envío</h2>
+        <h2 className="mb-4 border-bottom pb-2 checkout-titulo">
+          Datos de Facturación y Envío</h2>
         <form onSubmit={handleSubmit} noValidate>
+          {errores.general && (
+          <div className="alert alert-danger py-2">
+            {errores.general}
+          </div>
+        )}
           <FormInput
             label="Nombre Completo"
             name="nombre"
@@ -126,16 +155,57 @@ const Checkout = ({ cart, setCart, usuario }) => {
             error={errores.direccion}
             required
           />
-          <button type="submit" className="btn btn-success w-100 mt-3 py-2 fw-bold">
+          
+          <div className="row g-3 mb-3">
+            <div className="col-12 col-md-6">
+              <FormInput
+                label="Región"
+                name="region"
+                type="select"
+                value={formData.region}
+                onChange={(e) => {
+                  const nuevaRegion = e.target.value;
+                  setFormData({
+                    ...formData,
+                    region: nuevaRegion,
+                    comuna: regionesYComunas[nuevaRegion][0]
+                  });
+                }}
+                options={Object.keys(regionesYComunas).map((region) => ({
+                  value: region,
+                  label: region
+                }))}
+                required
+              />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <FormInput
+                label="Comuna"
+                name="comuna"
+                type="select"
+                value={formData.comuna}
+                onChange={handleChange}
+                options={regionesYComunas[formData.region].map((comuna) => ({
+                  value: comuna,
+                  label: comuna
+                }))}
+                required
+              />
+            </div>
+          </div>
+
+          <Button type="submit" variant="success" className="w-100 mt-3 py-2 fw-bold" >
             Confirmar y Generar Boleta
-          </button>
+          </Button>
         </form>
       </div>
 
       <div className="col-lg-5">
-        <div className="card shadow-sm border-0">
+        <div className="card shadow-sm checkout-resumen">
           <div className="card-body">
-            <h5 className="card-title mb-3">Resumen del Pedido</h5>
+            <h5 className="card-title mb-3 checkout-resumen-titulo">
+              Resumen del Pedido</h5>
             <ul className="list-group list-group-flush mb-3">
               {cart.map(item => (
                 <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center px-0">
@@ -147,7 +217,7 @@ const Checkout = ({ cart, setCart, usuario }) => {
                 </li>
               ))}
             </ul>
-            <div className="d-flex justify-content-between fs-5 fw-bold text-success border-top pt-2">
+            <div className="d-flex justify-content-between fs-5 border-top pt-2 checkout-total">
               <span>Total:</span>
               <span>{formatearPrecio(total)}</span>
             </div>

@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { registrarNuevoUsuario } from '../utils/validaciones';
+import FormInput from '../components/molecules/FormInput';
+import Button from '../components/atoms/Button';
+import '../styles/pages/Registro.css';
 
 const Registro = ({ setUsuario }) => {
   const navigate = useNavigate();
@@ -72,9 +75,9 @@ const Registro = ({ setUsuario }) => {
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-7">
           <div className="card shadow-sm border-0 rounded-4 overflow-hidden">
-            <div className="p-4 text-center" style={{ backgroundColor: '#aa9de4' }}>
-              <h3 className="fw-bold mb-1" style={{ color: '#292523' }}>Crear Cuenta </h3>
-              <p className="small mb-0" style={{ color: '#4a342d' }}>
+            <div className="registro-header">
+              <h3 className="registro-titulo">Crear Cuenta</h3>
+              <p className="registro-descripcion">
                 Regístrate para comprar en IsaFlor
               </p>
             </div>
@@ -86,11 +89,10 @@ const Registro = ({ setUsuario }) => {
               <form onSubmit={handleSubmit}>
                 <div className="row g-3 mb-3">
                   <div className="col-12 col-md-6">
-                    <label className="form-label fw-semibold small">Nombre Completo</label>
-                    <input
-                      type="text"
+                    <FormInput
+                      label="Nombre Completo"
                       name="nombre"
-                      className="form-control"
+                      type="text"
                       placeholder="Ej: María González"
                       value={formData.nombre}
                       onChange={handleChange}
@@ -99,11 +101,10 @@ const Registro = ({ setUsuario }) => {
                   </div>
 
                   <div className="col-12 col-md-6">
-                    <label className="form-label fw-semibold small">Correo Electrónico</label>
-                    <input
-                      type="email"
+                    <FormInput
+                      label="Correo Electrónico"
                       name="email"
-                      className="form-control"
+                      type="email"
                       placeholder="correo@ejemplo.com"
                       value={formData.email}
                       onChange={handleChange}
@@ -114,11 +115,10 @@ const Registro = ({ setUsuario }) => {
 
                 <div className="row g-3 mb-4">
                   <div className="col-12 col-md-6">
-                    <label className="form-label fw-semibold small">Contraseña</label>
-                    <input
-                      type="password"
+                    <FormInput
+                      label="Contraseña"
                       name="password"
-                      className="form-control"
+                      type="password"
                       placeholder="Mínimo 6 caracteres"
                       value={formData.password}
                       onChange={handleChange}
@@ -127,11 +127,10 @@ const Registro = ({ setUsuario }) => {
                   </div>
 
                   <div className="col-12 col-md-6">
-                    <label className="form-label fw-semibold small">Confirmar Contraseña</label>
-                    <input
-                      type="password"
+                    <FormInput
+                      label="Confirmar Contraseña"
                       name="confirmPassword"
-                      className="form-control"
+                      type="password"
                       placeholder="Repite tu contraseña"
                       value={formData.confirmPassword}
                       onChange={handleChange}
@@ -140,16 +139,14 @@ const Registro = ({ setUsuario }) => {
                   </div>
                 </div>
 
-                <button type="submit" className="btn btn-success w-100 py-2 fw-bold">
+                <Button type="submit" variant="success" className="w-100 py-2 fw-bold">
                   Registrarme
-                </button>
+                </Button>
               </form>
-
               <hr className="my-4" />
-
               <p className="text-center small mb-0">
                 ¿Ya tienes cuenta?{' '}
-                <Link to="/login" className="fw-bold text-decoration-none" style={{ color: '#5D4037' }}>
+                <Link to="/login" className="registro-enlace">
                   Inicia Sesión aquí
                 </Link>
               </p>

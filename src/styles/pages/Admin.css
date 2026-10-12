@@ -1,32 +1,31 @@
-/* src/styles/pages/Admin.css */
 
 /* Títulos y colores corporativos */
-.admin-title, 
+.admin-title,
 .admin-card-title {
-  color: var(--isaflor-verde-bosque, #2D5A27);
+  color: var(--isaflor-verde-eucalipto);
 }
 
 /* Alertas de stock bajo en la tabla */
 .table-warning-soft {
-  background-color: #FFF9E6 !important;
+  background-color: var(--isaflor-rosa-claro) !important;
 }
 
-/* Encabezado de la ta  bla de inventario */
+/* Encabezado de la tabla de inventario */
 .admin-container .table thead th {
-  color: var(--isaflor-texto-oscuro, #2C3E35);
+  color: var(--isaflor-texto);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: #f8f9fa;
+  background-color: var(--isaflor-fondo-global);
 }
 
-/* Previsualización de imagen en el formulario de creación */
+/* Previsualización de imagen en el formulario */
 .admin-img-preview {
   width: 100%;
   max-height: 200px;
   object-fit: cover;
   border-radius: 0.5rem;
-  border: 1px dashed #ced4da;
+  border: 1px dashed var(--isaflor-lavanda);
 }
 
 /* Miniaturas de productos dentro de la tabla */
@@ -35,4 +34,22 @@
   height: 48px;
   object-fit: cover;
   border-radius: 0.375rem;
+}
+
+/* Tabla de administración adaptable a pantallas pequeñas */
+.admin-table-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.admin-table-responsive {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table-responsive .table {
+  min-width: 650px;
+  margin-bottom: 0;
 }

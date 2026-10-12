@@ -74,16 +74,25 @@ const Carrito = ({ cart = [], setCart }) => {
                         <td>{formatearPrecio(item.precio)}</td>
                         <td>
                           <div className="btn-group btn-group-sm" role="group">
-                            <button className="btn btn-outline-secondary" onClick={() => handleCantidad(item.id, -1)}>-</button>
-                            <span className="btn btn-light disabled px-3 text-dark fw-bold">{item.cantidad}</span>
-                            <button className="btn btn-outline-secondary" onClick={() => handleCantidad(item.id, 1)} disabled={item.cantidad >= item.stock}>+</button>
-                          </div>
+                          <Button variant="outline-secondary" onClick={() => handleCantidad(item.id, -1)} disabled={item.cantidad <= 1}>
+                                                                            
+                            -
+                          </Button>
+                          <span className="btn btn-light disabled px-3 text-dark fw-bold">
+                            {item.cantidad}
+                          </span>
+                          <Button variant="outline-secondary" onClick={() => handleCantidad(item.id, 1)} disabled={item.cantidad >= item.stock}>
+                            +
+                          </Button>
+                        </div>
                         </td>
                         <td className="fw-bold text-isaflor-green">
                           {formatearPrecio(item.precio * item.cantidad)}
                         </td>
                         <td className="text-center">
-                          <button className="btn btn-outline-danger btn-sm border-0" onClick={() => handleEliminar(item.id)} title="Eliminar">🗑️</button>
+                          <Button variant="outline-danger" className="btn-sm border-0" onClick={() => handleEliminar(item.id)}>
+                            Eliminar
+                          </Button>
                         </td>
                       </tr>
                     ))}

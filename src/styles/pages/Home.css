@@ -1,21 +1,23 @@
-/* src/styles/pages/Home.css */
 
-/* Hero Banner */
+/* Banner principal de la página de inicio */
 .home-hero {
-  background-color: var(--isaflor-verde-eucalipto, #EAF2ED);
-  border: 1px solid #D8E6DC;
+  background-color: var(--isaflor-verde-suave);
+  border: 1px solid var(--isaflor-verde-eucalipto);
 }
 
+/* Título del banner */
 .home-hero__title {
-  color: var(--isaflor-verde-bosque, #2D5A27);
+  color: var(--isaflor-verde-eucalipto);
   letter-spacing: -0.5px;
 }
 
+/* Descripción del banner */
 .home-hero__description {
-  color: var(--isaflor-texto-oscuro, #2C3E35);
+  color: var(--isaflor-texto);
   max-width: 550px;
 }
 
+/* Imagen del banner */
 .home-hero__image {
   max-height: 260px;
   object-fit: cover;
@@ -23,7 +25,7 @@
   max-width: 400px;
 }
 
-/* Responsividad para la imagen del Hero */
+/* Ajuste de imagen en pantallas medianas y grandes */
 @media (min-width: 768px) {
   .home-hero__image {
     width: 40%;

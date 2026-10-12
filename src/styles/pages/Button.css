@@ -1,0 +1,43 @@
+/* Estilos para los botones de IsaFlor */
+
+/* Estilo base de los botones */
+.btn {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Efecto al pasar el cursor */
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* Botón deshabilitado */
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Botón principal */
+.btn-isaflor {
+  background-color: var(--isaflor-rosa-principal);
+  color: #fff;
+  border: none;
+}
+
+.btn-isaflor:hover:not(:disabled) {
+  background-color: #d16b90;
+  color: #fff;
+}
+
+/* Botón de éxito */
+.btn-isaflor-success {
+  background-color: var(--isaflor-verde-eucalipto);
+  color: #fff;
+  border: none;
+}
+
+.btn-isaflor-success:hover:not(:disabled) {
+  background-color: #386e60;
+  color: #fff;
+}

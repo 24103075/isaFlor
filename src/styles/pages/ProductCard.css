@@ -1,0 +1,67 @@
+
+/* Tarjeta del producto */
+.product-card {
+  background-color: #ffffff;
+  border: 1px solid var(--isaflor-rosa-claro) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto al pasar el cursor */
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(44, 62, 53, 0.12) !important;
+}
+
+/* Contenedor de la imagen */
+.product-card__img-container {
+  height: 260px;
+  overflow: hidden;
+  background-color: var(--isaflor-fondo-global);
+}
+
+/* Imagen del producto */
+.product-card__img {
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Efecto suave en la imagen */
+.product-card:hover .product-card__img {
+  transform: scale(1.03);
+}
+
+/* Categoría */
+.product-card__category {
+  color: var(--isaflor-cafe-suave);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Nombre del producto */
+.product-card__title {
+  color: var(--isaflor-texto);
+  min-height: 1.5rem;
+}
+
+/* Descripción */
+.product-card__description {
+  color: var(--isaflor-texto);
+  line-height: 1.5;
+}
+
+/* Precio */
+.product-card__price {
+  color: var(--isaflor-verde-eucalipto);
+}
+
+/* Ajustes para celulares */
+@media (max-width: 576px) {
+  .product-card__img-container {
+    height: 220px;
+  }
+
+  .product-card__title {
+    font-size: 1rem;
+  }
+}
