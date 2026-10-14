@@ -11,6 +11,8 @@ import Admin from './pages/Admin';
 import  './styles/global.css';
 import Registro from './pages/Registro';
 import Cliente from './pages/Cliente';
+import Contacto from './pages/Contacto';
+import Nosotros from './pages/Nosotros';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -48,7 +50,8 @@ function App() {
           <Route path="/login" element={<Login setUsuario={setUsuario} />} />
           <Route path="/registro" element={<Registro setUsuario={setUsuario} />} />
           <Route path="/perfil" element={usuario && usuario.rol === 'CLIENTE' ? (<Cliente usuario={usuario} />  ) : (<Navigate to="/login" replace />)} />
-          
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/nosotros" element={<Nosotros />} />
           <Route
             path="/admin"
             element={
