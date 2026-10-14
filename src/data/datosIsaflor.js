@@ -77,7 +77,7 @@ export const productosIniciales = [
     nombre: "Ramo Floral Girasoles",
     precio: 24990,
     imagen: "https://i.ibb.co/Fkf6PZ6H/imagen-16.jpg",
-    categoria: "Ramos",
+    categoria: "Arreglos",
     descripcion: "Diseño abundante de girasoles de temporada."
   },
   {
