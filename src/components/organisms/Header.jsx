@@ -54,7 +54,7 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
                   } 
                   to="/admin"
                 >
-                  ⚙️ Panel Admin
+                   Panel Admin
                 </NavLink>
               </li>
             )}
@@ -65,7 +65,7 @@ const Header = ({ cartCount = 0, usuario, onLogout }) => {
             
             {/* Botón Carrito */}
             <Link to="/carrito" className="btn btn-isaflor-outline position-relative me-2">
-              🛒 Carrito
+               Carrito
               {cartCount > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill isaflor-badge">
                   {cartCount}
