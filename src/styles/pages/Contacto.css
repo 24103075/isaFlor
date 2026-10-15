@@ -1,0 +1,62 @@
+.contacto-page {
+  color: var(--isaflor-texto);
+}
+
+.contacto-page__encabezado {
+  border-bottom: 1px solid var(--isaflor-verde-eucalipto);
+  padding-bottom: 1.5rem;
+}
+
+.contacto-page__etiqueta {
+  color: var(--isaflor-cafe-suave);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.contacto-page__titulo {
+  color: var(--isaflor-verde-eucalipto);
+  font-size: 2.4rem;
+}
+
+.contacto-page__datos,
+.contacto-page__canales {
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 6px;
+}
+
+.contacto-page__datos {
+  background: var(--isaflor-verde-suave);
+  border: 1px solid var(--isaflor-verde-eucalipto);
+}
+
+.contacto-page__canales {
+  background: var(--isaflor-rosa-claro);
+}
+
+.contacto-page__datos h2,
+.contacto-page__canales h2 {
+  margin-bottom: 1.25rem;
+  color: var(--isaflor-cafe-suave);
+  font-size: 1.25rem;
+}
+
+.contacto-page__lista > div + div {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.contacto-page__lista dt {
+  font-size: 0.9rem;
+}
+
+.contacto-page__lista dd {
+  margin: 0.25rem 0 0;
+}
+
+@media (max-width: 575px) {
+  .contacto-page__titulo {
+    font-size: 2rem;
+  }
+}
