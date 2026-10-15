@@ -2,7 +2,11 @@
 import React from 'react';
 import ProductCard from '../components/organisms/ProductCard';
 import { getProductos } from '../data/datosIsaflor';
-import bannerImage from '../assets/banner.webp';
+import logo from '../assets/logo.webp';
+import lisianthusRosado from '../assets/Lisianthus-1.webp';
+import cultivoLisianthus from '../assets/Lisianthus-2.webp';
+import girasoles from '../assets/girasol.webp';
+import alstroemerias from '../assets/alstroemeria.webp';
 import '../styles/pages/Home.css';
 
 const Home = ({ onAddToCart }) => {
@@ -23,13 +27,58 @@ const Home = ({ onAddToCart }) => {
             seleccionadas a mano.
           </p>
         </div>
+        
 
         <img
           className="home-hero__image img-fluid rounded-3 shadow-sm"
-          src={bannerImage}
+          src={logo}
           alt="Arreglo floral de IsaFlor"
         />
       </section>
+      {/* Foografias de inicio flores */}
+        <section className="home-lisianthus mb-5" aria-labelledby="home-lisianthus-title">
+          <div className="home-lisianthus__intro">
+            <p className="home-lisianthus__eyebrow">Cultivadas con amor en nuestros invernaderos</p>
+            <h2 id="home-lisianthus-title">Flores frescas y recien cortadas para ti </h2>
+            <p>
+              Somos productores locales. Cuidamos cada variedad desde la semilla hasta la cosecha para llevar la máxima frescura, aroma y color directamente a tu hogar.
+            </p>
+          </div>
+
+          <div className="home-lisianthus__grid">
+            <figure className="home-lisianthus__card">
+              <img
+                className="home-lisianthus__image"
+                src={lisianthusRosado}
+                alt="Lisianthus rosados y crema en plena floración"
+              />
+            </figure>
+
+            <figure className="home-lisianthus__card">
+              <img
+                className="home-lisianthus__image"
+                src={cultivoLisianthus}
+                alt="Cultivo de lisianthus blancos en un invernadero"
+              />
+            </figure>
+
+            <figure className="home-lisianthus__card">
+              <img
+                className="home-lisianthus__image"
+                src={girasoles}
+                alt="Girasoles en plena floración"
+              />
+            </figure>
+
+            <figure className="home-lisianthus__card">
+              <img
+                className="home-lisianthus__image"
+                src={alstroemerias}
+                alt="Alstroemerias en un invernadero"
+              />
+            </figure>
+          </div>
+        </section>
 
       {/* Sección de Ofertas y Productos Destacados */}
       <section className="home-offers mb-5">

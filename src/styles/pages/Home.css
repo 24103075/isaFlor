@@ -31,3 +31,31 @@
     width: 40%;
   }
 }
+
+.home-lisianthus__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.home-lisianthus__card {
+  margin: 0;
+}
+
+.home-lisianthus__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.home-lisianthus__card figcaption {
+  padding: 0.75rem 0;
+  color: var(--isaflor-texto);
+}
+
+@media (max-width: 575px) {
+  .home-lisianthus__grid {
+    grid-template-columns: 1fr;
+  }
+}
