@@ -1,0 +1,47 @@
+.nosotros-page {
+  color: var(--isaflor-texto);
+}
+
+.nosotros-portada {
+  border-bottom: 1px solid var(--isaflor-verde-eucalipto);
+}
+
+.nosotros-etiqueta {
+  color: var(--isaflor-cafe-suave);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.nosotros-titulo {
+  color: var(--isaflor-verde-eucalipto);
+  font-size: 3rem;
+}
+
+.nosotros-imagen {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.nosotros-inspiracion {
+  background: var(--isaflor-rosa-claro);
+}
+
+.nosotros-servicios__lista {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.nosotros-servicios__lista article {
+  padding-top: 1rem;
+  border-top: 2px solid var(--isaflor-verde-eucalipto);
+}
+
+@media (max-width: 767px) {
+  .nosotros-servicios__lista {
+    grid-template-columns: 1fr;
+  }
+}
