@@ -1,0 +1,46 @@
+
+
+.dashboard-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Rosa principal */
+.dashboard-card-rosa {
+  border-top: 4px solid var(--isaflor-rosa-principal);
+}
+
+.dashboard-card-rosa .dashboard-card-cantidad {
+  color: var(--isaflor-rosa-principal);
+}
+
+/* Lavanda */
+.dashboard-card-lavanda {
+  border-top: 4px solid var(--isaflor-lavanda);
+}
+
+.dashboard-card-lavanda .dashboard-card-cantidad {
+  color: var(--isaflor-lavanda);
+}
+
+/* Azul suave */
+.dashboard-card-azul {
+  border-top: 4px solid var(--isaflor-azul-soft);
+}
+
+.dashboard-card-azul .dashboard-card-cantidad {
+  color: var(--isaflor-texto);
+}
+
+/* Verde eucalipto */
+.dashboard-card-verde {
+  border-top: 4px solid var(--isaflor-verde-eucalipto);
+}
+
+.dashboard-card-verde .dashboard-card-cantidad {
+  color: var(--isaflor-verde-eucalipto);
+}
