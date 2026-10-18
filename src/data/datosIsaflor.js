@@ -90,11 +90,34 @@ export const productosIniciales = [
   }
 ];
 
-export const categorias = [
-  { id: 'arreglos', nombre: 'Arreglos' },
-  { id: 'ramos', nombre: 'Ramos' }
-  
+
+export const TARJETAS_DASHBOARD = [
+  {
+    titulo: 'Productos',
+    icono: 'bi-box-seam',
+    color: 'rosa',
+    estadistica: 'totalProductos'
+  },
+  {
+    titulo: 'Órdenes',
+    icono: 'bi-cart3',
+    color: 'lavanda',
+    estadistica: 'totalOrdenes'
+  },
+  {
+    titulo: 'Usuarios',
+    icono: 'bi-people',
+    color: 'azul',
+    estadistica: 'totalUsuarios'
+  },
+  {
+    titulo: 'Stock crítico',
+    icono: 'bi-exclamation-triangle',
+    color: 'verde',
+    estadistica: 'productosStockBajo'
+  }
 ];
+
 
 export const getProductos = () => {
   const guardados = localStorage.getItem('isaflor_productos');
@@ -105,6 +128,11 @@ export const getProductos = () => {
 export const guardarProductos = (productos) => {
   localStorage.setItem('isaflor_productos', JSON.stringify(productos));
 };
+
+export const categorias = [
+  { id: 'arreglos', nombre: 'Arreglos' },
+  { id: 'ramos', nombre: 'Ramos' }
+];
 
 // Exportación requerida para las categorías en Admin
 export const getCategorias = () => categorias;
@@ -163,9 +191,10 @@ export const INFO_CONTACTO = {
   whatsapp: "https://wa.me/56961991487"
 };
 
-export const MENU_NAVEGACION = [{nombre: 'INICIO', ruta: '/'}, 
-                                {nombre: 'CATÁLOGO', ruta: '/catalogo'}, 
-                                {nombre: 'NOSOTROS', ruta: '/nosotros'}, 
-                                {nombre: 'CONTACTO', ruta: '/contacto'}
-                               /* {nombre: 'OFERTAS', ruta: '/ofertas'}*/] 
-                               /* Futura implementacion */
+export const MENU_NAVEGACION = [
+        { nombre: 'INICIO', ruta: '/' },
+        { nombre: 'CATALOGO', ruta: '/catalogo' },
+        { nombre: 'OFERTAS', ruta: '/ofertas' },
+        { nombre: 'NOSOTROS', ruta: '/nosotros' },
+        { nombre: 'CONTACTO', ruta: '/contacto' }
+];

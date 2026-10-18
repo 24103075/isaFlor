@@ -8,6 +8,7 @@ import { REGISTRO_PRODUCTO, formatearPrecio,
          validarFormularioProducto, procesarGuardarProducto, eliminarProductoPorId} from '../utils/validaciones';
 import '../styles/pages/Admin.css';
 import FormInput from '../components/molecules/FormInput';
+import Dashboard from './Dashboard';
 
 
 const Admin = () => {
@@ -164,6 +165,7 @@ const Admin = () => {
                             )}
                           </td>
                           <td className="text-end pe-3">
+                            
                             <Button 
                               type="button" 
                               variant="outline-primary" 
@@ -171,7 +173,7 @@ const Admin = () => {
                               title="Editar" 
                               onClick={() => handleEditar(p)}
                             >
-                              ✏️
+                              <i className="bi bi-pencil" aria-hidden="true"></i>
                             </Button>
                             <Button 
                               type="button" 
@@ -180,8 +182,10 @@ const Admin = () => {
                               title="Eliminar" 
                               onClick={() => handleEliminar(p.id)}
                             >
-                              🗑️
+                              <i className="bi bi-trash" aria-hidden="true"></i>
                             </Button>
+
+
                           </td>
                         </tr>
                       );

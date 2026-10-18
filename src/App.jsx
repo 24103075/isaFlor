@@ -13,6 +13,10 @@ import Registro from './pages/Registro';
 import Cliente from './pages/Cliente';
 import Contacto from './pages/Contacto';
 import Nosotros from './pages/Nosotros';
+import Dashboard from './pages/Dashboard';
+import Ofertas from './pages/Ofertas';
+import Ordenes from './pages/Ordenes';
+
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -52,16 +56,10 @@ function App() {
           <Route path="/perfil" element={usuario && usuario.rol === 'CLIENTE' ? (<Cliente usuario={usuario} />  ) : (<Navigate to="/login" replace />)} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/nosotros" element={<Nosotros />} />
-          <Route
-            path="/admin"
-            element={
-              usuario && usuario.rol === 'ADMIN' ? (
-                <Admin />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
+          <Route path="/admin" element={usuario && usuario.rol === 'ADMIN' ? (<Dashboard />) : (<Navigate to="/login" replace />)}/>
+          <Route path="/admin/inventario" element={usuario && usuario.rol === 'ADMIN' ? (<Admin />) : (<Navigate to="/login" replace />)}/>
+          <Route path="/ofertas" element={<Ofertas onAddToCart={handleAddToCart} />}/>  
+          <Route path="/admin/ordenes" element={ usuario && usuario.rol === 'ADMIN'? <Ordenes />: <Navigate to="/login" replace />}/>
         </Routes>
       </MainTemplate>
     </BrowserRouter>
