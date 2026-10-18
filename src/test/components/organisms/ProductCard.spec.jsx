@@ -32,4 +32,15 @@ describe('ProductCard Component', () => {
     
     expect(onAddToCartSpy).toHaveBeenCalledWith(productoEjemplo);
   });
+  
+  it('muestra la descripción del producto', () => {
+    const { getByText } = render(
+      <ProductCard
+        producto={productoEjemplo}
+        onAddToCart={() => {}}
+      />
+    );
+
+    expect(getByText('Rosas rojas frescas')).toBeTruthy();
+  });
 });
