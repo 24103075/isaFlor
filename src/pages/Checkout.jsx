@@ -21,6 +21,7 @@ const Checkout = ({ cart, setCart, usuario }) => {
   });
 
   const [errores, setErrores] = useState({});
+  const [medioPago, setMedioPago] = useState('tarjeta');
   const [ordenCompletada, setOrdenCompletada] = useState(null);
 
   const total = calcularTotalCarrito(cart); 
@@ -61,7 +62,8 @@ const Checkout = ({ cart, setCart, usuario }) => {
     const nuevaOrden = {
       cliente: formData,
       items: cart,
-      total: total
+      total: total,
+      medioPago: medioPago
     };
 
     try {
@@ -76,15 +78,21 @@ const Checkout = ({ cart, setCart, usuario }) => {
   if (ordenCompletada) {
     return (
       <div className="card shadow checkout-boleta">
-        <div className="text-success fs-1 mb-2">🎉</div>
+      <div className="text-success fs-1 mb-2"><i className="bi bi-check-circle-fill" aria-hidden="true"></i></div>
         <h3 className="text-success mb-2">¡Compra Realizada con Éxito!</h3>
         <p className="text-muted mb-4">Número de Boleta: <strong>{ordenCompletada.id}</strong></p>
-
         <div className="checkout-boleta-detalles mb-4">
           <h5 className="border-bottom pb-2">Detalles de la Boleta</h5>
           <p className="mb-1"><strong>Cliente:</strong> {ordenCompletada.cliente.nombre}</p>
           <p className="mb-1"><strong>RUT:</strong> {ordenCompletada.cliente.rut}</p>
           <p className="mb-1"><strong>Fecha:</strong> {ordenCompletada.fecha}</p>
+          <p className="mb-1"><strong>Medio de pago:</strong>{' '}
+            {ordenCompletada.medioPago === 'tarjeta'
+              ? 'Tarjeta de débito o crédito'
+              : ordenCompletada.medioPago === 'transferencia'
+                ? 'Transferencia bancaria'  
+                : ordenCompletada.medioPago || 'No especificado'}
+          </p>
           <p className="mb-3"><strong>Dirección:</strong> {ordenCompletada.cliente.direccion}, {ordenCompletada.cliente.comuna}</p>
 
           <h6>Productos:</h6>
@@ -193,6 +201,46 @@ const Checkout = ({ cart, setCart, usuario }) => {
                 required
               />
             </div>
+          </div>
+              
+          <div className="mt-4 mb-3">
+            <h5 className="mb-3">Medio de pago</h5>
+
+            <div className="form-check border rounded p-3 mb-2">
+              <input
+                className="form-check-input"
+                type="radio"
+                id="pagoTarjeta"
+                name="medioPago"
+                value="Tarjeta de débito o crédito"
+                checked={medioPago === 'tarjeta'}
+                onChange={() => setMedioPago('tarjeta')}
+              />
+              <label className="form-check-label ms-2" htmlFor="pagoTarjeta">
+                <i className="bi bi-credit-card me-2" aria-hidden="true"></i>
+                Tarjeta de débito o crédito
+              </label>
+            </div>
+
+            <div className="form-check border rounded p-3">
+              <input
+                className="form-check-input"
+                type="radio"
+                id="pagoTransferencia"
+                name="medioPago"
+                value="Transferencia bancaria"
+                checked={medioPago === 'transferencia'}
+                onChange={() => setMedioPago('transferencia')}
+              />
+              <label className="form-check-label ms-2" htmlFor="pagoTransferencia">
+                <i className="bi bi-bank me-2" aria-hidden="true"></i>
+                Transferencia bancaria
+              </label>
+            </div>
+
+            <small className="text-muted d-block mt-2">
+              Seleccione su medio de pago
+            </small>
           </div>
 
           <Button type="submit" variant="success" className="w-100 mt-3 py-2 fw-bold" >
