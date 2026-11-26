@@ -1,37 +1,74 @@
-/* Este archivo se creo para que la pagina valide la 
-informacion que ingresa el cliente y le de formato correcto.*/
 
-// src/utils/validaciones.js
 
+// Validación de RUT chileno
+// Valida el RUN mediante el algoritmo Módulo 11
 export const validarRut = (rut) => {
-  if (!rut || typeof rut !== 'string') return false;
-  const valor = rut.replace(/\./g, '').replace('-', '').trim().toUpperCase();
-  if (valor.length < 8) return false;
-  
-  const cuerpo = valor.slice(0, -1);
-  const dv = valor.slice(-1);
 
-  if (!/^\d+$/.test(cuerpo)) return false;
+  // Primero normalizamos el RUN
+  const rutNormalizado = normalizarRut(rut);
+
+  if (!rutNormalizado) return false;
+
+  const [cuerpo, dv] = rutNormalizado.split('-');
 
   let suma = 0;
   let multiplicador = 2;
 
   for (let i = cuerpo.length - 1; i >= 0; i--) {
-    suma += parseInt(cuerpo.charAt(i), 10) * multiplicador;
-    multiplicador = multiplicador < 7 ? multiplicador + 1 : 2;
+
+    suma += Number(cuerpo[i]) * multiplicador;
+
+    multiplicador = multiplicador === 7
+      ? 2
+      : multiplicador + 1;
   }
 
-  const dvesperado = 11 - (suma % 11);
-  let dvCalculado = dvesperado === 11 ? '0' : dvesperado === 10 ? 'K' : dvesperado.toString();
+  const resultado = 11 - (suma % 11);
+
+  const dvCalculado =
+    resultado === 11 ? '0' :
+    resultado === 10 ? 'K' :
+    String(resultado);
 
   return dv === dvCalculado;
 };
 
+// Estandariza el formato del RUN chileno
+export const normalizarRut = (rut) => {
+
+  if (!rut || typeof rut !== 'string') return '';
+
+  const valor = rut
+    .replace(/[.\s-]/g, '')
+    .toUpperCase();
+
+  if (!/^\d{7,8}[\dK]$/.test(valor)) return '';
+
+  const cuerpo = valor.slice(0, -1);
+  const dv = valor.slice(-1);
+
+  return `${cuerpo}-${dv}`;
+};
+
+
+// Valida si un correo electrónico tiene un formato válido
 export const validarEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 };
 
+
+// Valida si una contraseña cumple con los criterios de seguridad
+export const validarPassword = (password) => {
+  // Al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  return regex.test(password);
+};
+// Valida si un nombre de usuario es válido (solo letras y espacios, mínimo 3 caracteres)
+export const validarNombreUsuario = (nombre) => {
+  const regex = /^[A-Za-z\s]{3,}$/;
+  return regex.test(nombre);
+};
 export const formatearPrecio = (precio) => {
   return new Intl.NumberFormat('es-CL', {
     style: 'currency',
@@ -40,13 +77,13 @@ export const formatearPrecio = (precio) => {
   }).format(precio);
 };
 
-// 1. Obtener lista de usuarios dinámicos desde localStorage
+// Obtener lista de usuarios dinámicos desde localStorage
 export const obtenerUsuariosRegistrados = () => {
   const usuarios = localStorage.getItem('isaflor_usuarios');
   return usuarios ? JSON.parse(usuarios) : [];
 };
 
-// 2. Registrar un nuevo usuario dinámico
+// Registrar un nuevo usuario dinámico
 export const registrarNuevoUsuario = (datosUsuario) => {
   const usuariosExistentes = obtenerUsuariosRegistrados();
 
@@ -74,7 +111,7 @@ export const registrarNuevoUsuario = (datosUsuario) => {
   return { exito: true, mensaje: '¡Cuenta creada con éxito! Redirigiendo...' };
 };
 
-// 3. Login de usuario (Soporta demo y cuentas registradas nuevas)
+// Login de usuario (Soporta demo y cuentas registradas nuevas)
 export const loginUsuario = (email, password) => {
   // Cuentas fijas / demo
   if (email === 'admin@isaflor.cl' && password === 'admin123') {
@@ -101,9 +138,8 @@ export const loginUsuario = (email, password) => {
   return null;
 };
 
-/**
- * Valida si un producto está agotado
- */
+// Valida si un producto está agotado
+ 
 export const esProductoAgotado = (producto) => {
   return !producto || producto.stock <= 0;
 };
