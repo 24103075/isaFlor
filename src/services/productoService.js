@@ -1,12 +1,8 @@
 
-// src/services/productoService.js
-
 import api from './api';
 
 
-// =========================================
 // ADAPTAR PRODUCTOS DEL BACKEND AL FRONTEND
-// =========================================
 
 const adaptarProducto = (producto) => {
 
@@ -76,9 +72,8 @@ const adaptarProducto = (producto) => {
 };
 
 
-// =========================================
+
 // ADAPTAR DATOS DEL FRONTEND AL BACKEND
-// =========================================
 
 const adaptarProductoParaBackend = (producto) => {
 
@@ -110,9 +105,8 @@ const adaptarProductoParaBackend = (producto) => {
 };
 
 
-// =========================================
+
 // OBTENER TODOS LOS PRODUCTOS
-// =========================================
 
 export const obtenerProductos = async () => {
 
@@ -137,9 +131,8 @@ export const obtenerProductos = async () => {
 };
 
 
-// =========================================
+
 // OBTENER PRODUCTO POR ID
-// =========================================
 
 export const obtenerProductoPorId = async (id) => {
 
@@ -152,9 +145,8 @@ export const obtenerProductoPorId = async (id) => {
 };
 
 
-// =========================================
+
 // OBTENER PRODUCTOS EN OFERTA
-// =========================================
 
 export const obtenerProductosEnOferta = async () => {
 
@@ -167,9 +159,9 @@ export const obtenerProductosEnOferta = async () => {
 };
 
 
-// =========================================
+
 // CREAR PRODUCTO
-// =========================================
+
 
 export const crearProducto = async (producto) => {
 
@@ -193,9 +185,8 @@ export const crearProducto = async (producto) => {
 };
 
 
-// =========================================
+
 // ACTUALIZAR PRODUCTO
-// =========================================
 
 export const actualizarProducto = async (id, producto) => {
 
@@ -212,9 +203,8 @@ export const actualizarProducto = async (id, producto) => {
 };
 
 
-// =========================================
+
 // ELIMINAR PRODUCTO
-// =========================================
 
 export const eliminarProducto = async (id) => {
 
@@ -227,9 +217,8 @@ export const eliminarProducto = async (id) => {
 };
 
 
-// =========================================
+
 // ACTIVAR, MODIFICAR O DESACTIVAR OFERTA
-// =========================================
 
 export const actualizarOferta = async (
   id,

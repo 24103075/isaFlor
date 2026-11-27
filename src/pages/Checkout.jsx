@@ -116,26 +116,58 @@ const Checkout = ({
   // DATOS DEL FORMULARIO
   // =========================================
 
-  const [formData, setFormData] = useState({
-    nombre: usuario?.nombre || '',
-    rut: usuario?.rut || usuario?.run || '',
-    email: usuario?.email || usuario?.correo || '',
-    direccion: '',
+  const perfil = usuario?.rol === 'CLIENTE'
+    ? (usuario.usuario ?? usuario)
+    : null;
+
+  const [formData, setFormData] = useState(() => ({
+    nombre: [perfil?.nombre, perfil?.apellidoPaterno,
+      perfil?.apellidoMaterno].filter(Boolean).join(' '),
+    rut: perfil?.run ?? perfil?.rut ?? '',
+    email: perfil?.correo ?? perfil?.email ?? '',
+    direccion: perfil?.direccion ?? '',
     idRegion: '',
     idComuna: ''
-  });
-
+  }));
 
   // =========================================
   // UBICACIONES DESDE EL BACKEND
   // =========================================
 
   const {
+    comunas,
     regiones,
     obtenerComunasPorRegion,
     cargando: cargandoUbicaciones,
     error: errorUbicaciones
   } = useUbicaciones();
+
+  const ubicacionEditada = useRef(false);
+  const ubicacionInicializada = useRef(false);
+  const idComunaPerfil = perfil?.idComuna;
+
+  // Completar la ubicación cuando termine la consulta,
+  // sin sobrescribir una selección manual del cliente.
+  useEffect(() => {
+    if (ubicacionEditada.current || ubicacionInicializada.current ||
+        cargandoUbicaciones || errorUbicaciones || idComunaPerfil == null) {
+      return;
+    }
+
+    const comuna = comunas.find(item =>
+      String(item.idComuna) === String(idComunaPerfil)
+    );
+
+    if (!comuna || comuna.region?.idRegion == null) return;
+
+    ubicacionInicializada.current = true;
+    setFormData(anterior => ({
+      ...anterior,
+      idRegion: String(comuna.region.idRegion),
+      idComuna: String(comuna.idComuna)
+    }));
+  }, [comunas, cargandoUbicaciones, errorUbicaciones, idComunaPerfil]);
+
 
   const comunasFiltradas = obtenerComunasPorRegion(
     formData.idRegion
@@ -270,6 +302,10 @@ const Checkout = ({
     }
 
     const { name, value } = e.target;
+
+    if (name === 'idRegion' || name === 'idComuna') {
+      ubicacionEditada.current = true;
+    }
 
     setFormData(anterior => ({
       ...anterior,
