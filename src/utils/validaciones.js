@@ -1,10 +1,11 @@
 
+// ======================================================
+// VALIDACIONES DE USUARIOS
+// ======================================================
 
-// Validación de RUT chileno
-// Valida el RUN mediante el algoritmo Módulo 11
+// Valida el RUN chileno mediante el algoritmo Módulo 11
 export const validarRut = (rut) => {
 
-  // Primero normalizamos el RUN
   const rutNormalizado = normalizarRut(rut);
 
   if (!rutNormalizado) return false;
@@ -33,6 +34,7 @@ export const validarRut = (rut) => {
   return dv === dvCalculado;
 };
 
+
 // Estandariza el formato del RUN chileno
 export const normalizarRut = (rut) => {
 
@@ -51,25 +53,42 @@ export const normalizarRut = (rut) => {
 };
 
 
-// Valida si un correo electrónico tiene un formato válido
+// Valida el formato del correo electrónico
 export const validarEmail = (email) => {
+
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   return regex.test(email);
 };
 
 
-// Valida si una contraseña cumple con los criterios de seguridad
+// Valida los criterios de seguridad de una contraseña
 export const validarPassword = (password) => {
-  // Al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número
+
+  // Mínimo 8 caracteres, una mayúscula,
+  // una minúscula y un número
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   return regex.test(password);
 };
-// Valida si un nombre de usuario es válido (solo letras y espacios, mínimo 3 caracteres)
+
+
+// Valida el nombre de usuario
 export const validarNombreUsuario = (nombre) => {
+
   const regex = /^[A-Za-z\s]{3,}$/;
+
   return regex.test(nombre);
 };
+
+
+// ======================================================
+// FORMATO DE PRECIOS
+// ======================================================
+
+// Formatea los precios en pesos chilenos
 export const formatearPrecio = (precio) => {
+
   return new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
@@ -77,23 +96,43 @@ export const formatearPrecio = (precio) => {
   }).format(precio);
 };
 
-// Obtener lista de usuarios dinámicos desde localStorage
+
+// ======================================================
+// AUTENTICACIÓN SIMULADA
+// Pendiente de reemplazar por autenticación real con JWT
+// ======================================================
+
+// Obtener usuarios registrados desde localStorage
 export const obtenerUsuariosRegistrados = () => {
+
   const usuarios = localStorage.getItem('isaflor_usuarios');
+
   return usuarios ? JSON.parse(usuarios) : [];
 };
 
-// Registrar un nuevo usuario dinámico
+
+// Registrar un usuario de manera local
 export const registrarNuevoUsuario = (datosUsuario) => {
+
   const usuariosExistentes = obtenerUsuariosRegistrados();
 
-  // Validar si el correo ya está registrado en la lista
+  // Verificar si el correo ya está registrado
   const existe = usuariosExistentes.some(
-    (u) => u.email.toLowerCase() === datosUsuario.email.toLowerCase()
+    (u) =>
+      u.email.toLowerCase() ===
+      datosUsuario.email.toLowerCase()
   );
 
-  if (existe || datosUsuario.email === 'admin@isaflor.cl' || datosUsuario.email === 'cliente@isaflor.cl') {
-    return { exito: false, mensaje: 'El correo electrónico ya se encuentra registrado.' };
+  if (
+    existe ||
+    datosUsuario.email === 'admin@isaflor.cl' ||
+    datosUsuario.email === 'cliente@isaflor.cl'
+  ) {
+
+    return {
+      exito: false,
+      mensaje: 'El correo electrónico ya se encuentra registrado.'
+    };
   }
 
   const nuevoUsuario = {
@@ -106,28 +145,61 @@ export const registrarNuevoUsuario = (datosUsuario) => {
   };
 
   usuariosExistentes.push(nuevoUsuario);
-  localStorage.setItem('isaflor_usuarios', JSON.stringify(usuariosExistentes));
 
-  return { exito: true, mensaje: '¡Cuenta creada con éxito! Redirigiendo...' };
+  localStorage.setItem(
+    'isaflor_usuarios',
+    JSON.stringify(usuariosExistentes)
+  );
+
+  return {
+    exito: true,
+    mensaje: '¡Cuenta creada con éxito! Redirigiendo...'
+  };
 };
 
-// Login de usuario (Soporta demo y cuentas registradas nuevas)
+
+// Inicio de sesión simulado
 export const loginUsuario = (email, password) => {
-  // Cuentas fijas / demo
-  if (email === 'admin@isaflor.cl' && password === 'admin123') {
-    return { nombre: 'Administrador IsaFlor', email, rol: 'ADMIN', rut: '11111111-1' };
-  }
-  if (email === 'cliente@isaflor.cl' && password === '123456') {
-    return { nombre: 'Cliente Demo', email, rol: 'CLIENTE', rut: '22222222-2' };
+
+  // Cuenta de administrador de demostración
+  if (
+    email === 'admin@isaflor.cl' &&
+    password === 'admin123'
+  ) {
+
+    return {
+      nombre: 'Administrador IsaFlor',
+      email,
+      rol: 'ADMIN',
+      rut: '11111111-1'
+    };
   }
 
-  // Buscar en usuarios dinámicos guardados al registrarse
+  // Cuenta de cliente de demostración
+  if (
+    email === 'cliente@isaflor.cl' &&
+    password === '123456'
+  ) {
+
+    return {
+      nombre: 'Cliente Demo',
+      email,
+      rol: 'CLIENTE',
+      rut: '22222222-2'
+    };
+  }
+
+  // Buscar usuarios registrados localmente
   const usuariosRegistrados = obtenerUsuariosRegistrados();
+
   const usuarioEncontrado = usuariosRegistrados.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    (u) =>
+      u.email.toLowerCase() === email.toLowerCase() &&
+      u.password === password
   );
 
   if (usuarioEncontrado) {
+
     return {
       nombre: usuarioEncontrado.nombre,
       email: usuarioEncontrado.email,
@@ -138,122 +210,270 @@ export const loginUsuario = (email, password) => {
   return null;
 };
 
+
+// ======================================================
+// VALIDACIONES DE STOCK
+// ======================================================
+
 // Valida si un producto está agotado
- 
+// o no tiene información de stock válida
 export const esProductoAgotado = (producto) => {
-  return !producto || producto.stock <= 0;
+
+  if (!producto || producto.stock == null) {
+    return true;
+  }
+
+  const stock = Number(producto.stock);
+
+  return !Number.isInteger(stock) || stock <= 0;
 };
+
 
 // Valida si un producto tiene stock crítico
 export const tieneStockCritico = (producto) => {
-  if (!producto) return false;
-  return Number(producto.stock) <= Number(producto.stockCritico || 3);
+
+  if (!producto || producto.stock == null) {
+    return false;
+  }
+
+  const stock = Number(producto.stock);
+
+  // Utilizar el límite configurado para cada producto
+  // Si no existe, utilizar 3 como valor predeterminado
+  const stockCritico = Number(
+    producto.stockCritico ?? 3
+  );
+
+  // Verificar que los valores sean válidos
+  if (
+    !Number.isInteger(stock) ||
+    !Number.isInteger(stockCritico) ||
+    stock < 0 ||
+    stockCritico < 0
+  ) {
+    return false;
+  }
+
+  return stock <= stockCritico;
 };
 
-// Obtiene los productos que tienen stock crítico
+
+// Obtiene los productos que tienen stock bajo o agotado
 export const obtenerProductosStockBajo = (productos = []) => {
-  return productos.filter(producto => tieneStockCritico(producto));
+
+  return productos.filter(
+    producto => tieneStockCritico(producto)
+  );
 };
 
-//Esta modificación conserva el funcionamiento 
-// actual: devuelve un mensaje cuando encuentra un error y null cuando los datos son válidos.
+
+// ======================================================
+// VALIDACIONES DEL FORMULARIO DE PRODUCTOS
+// ======================================================
+
+// Devuelve un mensaje si encuentra un error
+// y null cuando los datos son válidos
 export const validarFormularioProducto = (form) => {
+
+  // Validar nombre
   if (!form.nombre || form.nombre.trim() === '') {
+
     return 'El nombre es obligatorio.';
   }
 
+  // Validar categoría
   if (!form.categoria || form.categoria.trim() === '') {
+
     return 'Debes seleccionar una categoría.';
   }
 
+  // Validar precio
   if (
     form.precio === '' ||
     !Number.isFinite(Number(form.precio)) ||
     Number(form.precio) <= 0
   ) {
+
     return 'El precio debe ser un número mayor a 0.';
   }
 
+  // Validar stock
   if (
     form.stock === '' ||
     !Number.isInteger(Number(form.stock)) ||
     Number(form.stock) < 0
   ) {
+
     return 'El stock debe ser un número entero igual o mayor a 0.';
   }
 
   return null;
 };
 
-export const CONFIG_CARRITO  = {
-  COSTO_ENVIO:0,
-  TEXTO_ENVIO_GRATIS:"Gratis",
-  MENSAJE_CARRITO_VACIO: "Tu carrito esta vacio",
-  SUBTITULO_CARRITO_VACIO:"Aun no añades productos a tu carrito",
-}
- // Suma el precio por la cantidad de productos
- export const calcularTotalCarrito = (carrito = []) => {
-  return carrito.reduce((acc, item) => acc + (Number(item.precio) * Number(item.cantidad)), 0);
- }
- 
- // Actualiza la cantidad de un producto sin superar su stock
-// ni permitir cantidades inferiores a 1.
+
+// ======================================================
+// CONFIGURACIÓN DEL CARRITO
+// ======================================================
+
+export const CONFIG_CARRITO = {
+
+  COSTO_ENVIO: 0,
+
+  TEXTO_ENVIO_GRATIS: 'Gratis',
+
+  MENSAJE_CARRITO_VACIO: 'Tu carrito está vacío',
+
+  SUBTITULO_CARRITO_VACIO:
+    'Aún no añades productos a tu carrito'
+
+};
+
+
+// ======================================================
+// FUNCIONES DEL CARRITO DE COMPRAS
+// ======================================================
+
+// Calcula el total de los productos del carrito
+export const calcularTotalCarrito = (carrito = []) => {
+
+  return carrito.reduce(
+    (acc, item) =>
+      acc + (Number(item.precio) * Number(item.cantidad)),
+    0
+  );
+};
+
+
+// Actualiza la cantidad de un producto sin superar su stock
+// ni permitir cantidades inferiores a 1
 export const actualizarCantidadItem = (carrito, id, delta) => {
+
   return carrito.map(item => {
-    if (item.id === id) {
-      const nuevaCantidad = Number(item.cantidad) + delta;
-      const stockDisponible = Number(item.stock);
 
-      if (nuevaCantidad < 1 || nuevaCantidad > stockDisponible) {
-        return item;
-      }
-
-      return { ...item, cantidad: nuevaCantidad };
+    // Conservar los productos que no se están modificando
+    if (item.id !== id) {
+      return item;
     }
 
-    return item;
+    // Obtener los valores actuales
+    const cantidadActual = Number(item.cantidad);
+    const stockDisponible = Number(item.stock);
+    const cambio = Number(delta);
+
+    const nuevaCantidad = cantidadActual + cambio;
+
+    // Validar que los valores sean correctos
+    if (
+      item.stock == null ||
+      item.cantidad == null ||
+      delta == null ||
+      !Number.isInteger(cantidadActual) ||
+      !Number.isInteger(stockDisponible) ||
+      !Number.isInteger(cambio) ||
+      stockDisponible < 0
+    ) {
+      return item;
+    }
+
+    // Impedir cantidades inferiores a 1
+    // o superiores al stock disponible
+    if (
+      nuevaCantidad < 1 ||
+      nuevaCantidad > stockDisponible
+    ) {
+      return item;
+    }
+
+    // Actualizar la cantidad del producto
+    return {
+      ...item,
+      cantidad: nuevaCantidad
+    };
+
   });
 };
 
-//Elimina un producto por su id
-export const eliminarItemCarrito = (carrito,id) => {
+
+// Elimina un producto del carrito mediante su ID
+export const eliminarItemCarrito = (carrito, id) => {
+
   return carrito.filter(item => item.id !== id);
-}
+};
 
 
-//  Formulario de registro de producto
-  export const REGISTRO_PRODUCTO = {
-    id: null,
-    nombre: '',
-    categoria: 'Rosas',
-    precio: '',
-    stock: '',
-    stockCritico: 3,
-    descripcion: '',
-    imagen: '',
-    enOferta: false
-  };
+// ======================================================
+// ADMINISTRACIÓN SIMULADA DE PRODUCTOS
+// Pendiente de integración con la API REST
+// ======================================================
 
-  // Actualiza o crea un producto en la lista
-export const procesarGuardarProducto = (productos, form, editando) => {
+// Valores iniciales del formulario de productos
+export const REGISTRO_PRODUCTO = {
+
+  id: null,
+
+  nombre: '',
+
+  categoria: 'Rosas',
+
+  precio: '',
+
+  stock: '',
+
+  stockCritico: 3,
+
+  descripcion: '',
+
+  imagen: '',
+
+  enOferta: false
+
+};
+
+
+// Actualiza o crea un producto en la lista local
+export const procesarGuardarProducto = (
+  productos,
+  form,
+  editando
+) => {
+
+  // Actualizar producto existente
   if (editando) {
-    return productos.map(p => 
-      p.id === form.id 
-        ? { ...form, precio: Number(form.precio), stock: Number(form.stock) } 
+
+    return productos.map(p =>
+
+      p.id === form.id
+
+        ? {
+            ...form,
+            precio: Number(form.precio),
+            stock: Number(form.stock)
+          }
+
         : p
+
     );
   }
-  
+
+  // Crear un producto nuevo
   const nuevoProducto = {
+
     ...form,
+
     id: Date.now(),
+
     precio: Number(form.precio),
+
     stock: Number(form.stock)
+
   };
+
   return [...productos, nuevoProducto];
 };
 
-// Filtra la lista eliminando por ID
+
+// Elimina un producto de la lista local mediante su ID
 export const eliminarProductoPorId = (productos, id) => {
+
   return productos.filter(p => p.id !== id);
 };
