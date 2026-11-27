@@ -1,7 +1,7 @@
 
 // src/App.jsx
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import {
   BrowserRouter,
@@ -30,6 +30,7 @@ import Ordenes from './pages/Ordenes';
 
 // Servicios
 import { obtenerProductos } from './services/productoService';
+import { obtenerSesion, cerrarSesion } from './services/sessionService';
 
 // Validaciones
 import { esProductoAgotado } from './utils/validaciones';
@@ -79,13 +80,46 @@ function App() {
   // ESTADO DEL USUARIO
   // =========================================
 
-  const [usuario, setUsuario] = useState(() => {
+  const [sesion, setSesion] = useState(obtenerSesion);
 
-    return JSON.parse(
-      localStorage.getItem('isaflor_sesion')
-    ) || null;
+  // Mantener los datos del usuario accesibles para los componentes.
+  const usuario = sesion ? {
+    ...sesion.usuario,
+    email: sesion.usuario.correo,
+    rol: sesion.rol
+  } : null;
 
-  });
+  // Sincronizar la sesion con el navegador y el interceptor de Axios.
+  useEffect(() => {
+    const sincronizarSesion = () => setSesion(obtenerSesion());
+    const alCambiarStorage = (evento) => {
+      if (evento.key === 'isaflor_sesion' || evento.key === null) {
+        sincronizarSesion();
+      }
+    };
+
+    window.addEventListener('isaflor:sesion-expirada', sincronizarSesion);
+    window.addEventListener('storage', alCambiarStorage);
+    window.addEventListener('focus', sincronizarSesion);
+
+    return () => {
+      window.removeEventListener('isaflor:sesion-expirada', sincronizarSesion);
+      window.removeEventListener('storage', alCambiarStorage);
+      window.removeEventListener('focus', sincronizarSesion);
+    };
+  }, []);
+
+  // Cerrar la sesion cuando llegue la fecha de expiracion.
+  useEffect(() => {
+    if (!sesion) return;
+
+    const tiempoRestante = Math.max(0, sesion.expiresAt - Date.now());
+    const temporizador = window.setTimeout(() => {
+      setSesion(obtenerSesion());
+    }, tiempoRestante);
+
+    return () => window.clearTimeout(temporizador);
+  }, [sesion]);
 
 
   // =========================================
@@ -445,9 +479,9 @@ function App() {
 
   const handleLogout = () => {
 
-    localStorage.removeItem('isaflor_sesion');
+    cerrarSesion();
 
-    setUsuario(null);
+    setSesion(null);
 
     cerrarMensajeCarrito();
 
@@ -563,7 +597,7 @@ function App() {
           <Route
             path="/login"
             element={
-              <Login setUsuario={setUsuario} />
+              <Login setUsuario={setSesion} />
             }
           />
 
@@ -573,7 +607,7 @@ function App() {
           <Route
             path="/registro"
             element={
-              <Registro setUsuario={setUsuario} />
+              <Registro />
             }
           />
 
@@ -611,7 +645,7 @@ function App() {
           <Route
             path="/admin"
             element={
-              usuario && usuario.rol === 'ADMIN'
+              usuario && usuario.rol === 'ADMINISTRADOR'
                 ? <Dashboard />
                 : <Navigate to="/login" replace />
             }
@@ -623,7 +657,7 @@ function App() {
           <Route
             path="/admin/inventario"
             element={
-              usuario && usuario.rol === 'ADMIN'
+              usuario && usuario.rol === 'ADMINISTRADOR'
                 ? <Admin />
                 : <Navigate to="/login" replace />
             }
@@ -645,7 +679,7 @@ function App() {
           <Route
             path="/admin/ordenes"
             element={
-              usuario && usuario.rol === 'ADMIN'
+              usuario && usuario.rol === 'ADMINISTRADOR'
                 ? <Ordenes />
                 : <Navigate to="/login" replace />
             }
