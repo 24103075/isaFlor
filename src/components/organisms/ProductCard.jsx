@@ -1,75 +1,395 @@
+
 // src/components/organisms/ProductCard.jsx
-import React from 'react';
+
+import React, { useState } from 'react';
+
 import Button from '../atoms/Button';
 import Badge from '../atoms/Badge';
-import {formatearPrecio, esProductoAgotado, tieneStockCritico} from '../../utils/validaciones';
+
+import {
+  formatearPrecio,
+  esProductoAgotado,
+  tieneStockCritico
+} from '../../utils/validaciones';
+
 import '../../styles/organisms/ProductCard.css';
 
+
 const ProductCard = ({ producto, onAddToCart }) => {
+
+  // Estados del componente
+  const [cantidad, setCantidad] = useState(1);
+  const [imagenFallida, setImagenFallida] = useState(null);
+
+  // Validaciones de stock
   const agotado = esProductoAgotado(producto);
   const stockCritico = tieneStockCritico(producto);
+  const stockDisponible = Number(producto.stock);
+
+  // Comprobar disponibilidad de imagen
+  const tieneImagen =
+    Boolean(producto.imagen) &&
+    imagenFallida !== producto.imagen;
+
+  // Validar la cantidad seleccionada
+  const cantidadValida =
+    cantidad !== '' &&
+    Number.isInteger(Number(cantidad)) &&
+    Number(cantidad) >= 1 &&
+    Number(cantidad) <= stockDisponible;
+
+
+  // Aumentar cantidad
+  const aumentarCantidad = () => {
+
+    if (!agotado) {
+
+      setCantidad(prev =>
+        Math.min(
+          stockDisponible,
+          (Number(prev) || 0) + 1
+        )
+      );
+
+    }
+  };
+
+
+  // Disminuir cantidad
+  const disminuirCantidad = () => {
+
+    setCantidad(prev =>
+      Math.max(1, Number(prev) - 1)
+    );
+
+  };
+
+
+  // Permitir escribir directamente la cantidad
+  const handleCantidadChange = (e) => {
+
+    const valor = e.target.value;
+
+    if (valor === '') {
+
+      setCantidad('');
+      return;
+
+    }
+
+    const numero = Number(valor);
+
+    if (Number.isInteger(numero)) {
+
+      setCantidad(
+        Math.max(1, Math.min(numero, stockDisponible))
+      );
+
+    }
+
+  };
+
+
+  // Añadir las unidades seleccionadas al carrito
+  const handleAgregarCarrito = () => {
+
+    if (agotado || !cantidadValida) {
+      return;
+    }
+
+    onAddToCart(producto, Number(cantidad));
+
+    // Restablecer el selector
+    setCantidad(1);
+
+  };
+
 
   return (
-    <div className="card h-100 product-card shadow-sm border-0 rounded-4 overflow-hidden">
-      {/* Contenedor de la Imagen y Badges */}
-      <div className="position-relative product-card__img-container">
-        <img
-          src={producto.imagen}
-          className="w-100 h-100 product-card__img"
-          alt={producto.nombre}
-          loading="lazy"
-        />
 
-        {/* Badges Flotantes */}
+    <div className="card h-100 product-card shadow-sm border-0 rounded-4 overflow-hidden">
+
+      {/* CONTENEDOR DE IMAGEN */}
+
+      <div className="position-relative product-card__img-container">
+
+        {tieneImagen ? (
+
+          <img
+            src={producto.imagen}
+            className="w-100 h-100 product-card__img"
+            alt={producto.nombre}
+            loading="lazy"
+            onError={() => setImagenFallida(producto.imagen)}
+          />
+
+        ) : (
+
+          <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-light text-muted">
+
+            <i
+              className="bi bi-image fs-1 mb-2"
+              aria-hidden="true"
+            ></i>
+
+            <small>Imagen no disponible</small>
+
+          </div>
+
+        )}
+
+
+        {/* ETIQUETAS FLOTANTES */}
+
         <div className="position-absolute top-0 start-0 m-2 d-flex flex-column gap-1">
-          {producto.enOferta && (<Badge bg="isaflor-rose" className="shadow-sm">
+
+          {producto.enOferta && (
+
+            <Badge
+              bg="isaflor-rose"
+              className="shadow-sm"
+            >
               Oferta
             </Badge>
+
           )}
-          {stockCritico && (
-            <Badge bg="isaflor-amber" className="shadow-sm">
+
+          {stockCritico && !agotado && (
+
+            <Badge
+              bg="isaflor-amber"
+              className="shadow-sm"
+            >
               Últimas Unidades
             </Badge>
+
           )}
-          {agotado && (<Badge bg="secondary" className="shadow-sm">
+
+          {agotado && (
+
+            <Badge
+              bg="secondary"
+              className="shadow-sm"
+            >
               Agotado
             </Badge>
+
           )}
+
         </div>
+
       </div>
 
-      {/* Cuerpo de la Tarjeta */}
+
+      {/* CUERPO DE LA TARJETA */}
+
       <div className="card-body d-flex flex-column p-3">
+
+        {/* Categoría */}
+
         <small className="product-card__category text-muted mb-1 text-uppercase fw-semibold">
+
           {producto.categoria}
+
         </small>
-        
+
+
+        {/* Nombre */}
+
         <h5 className="card-title product-card__title text-truncate fw-bold mb-2">
+
           {producto.nombre}
+
         </h5>
-        
+
+
+        {/* Descripción */}
+
         <p className="card-text text-muted small flex-grow-1 product-card__description">
+
           {producto.descripcion}
+
         </p>
 
-        {/* Pie de Tarjeta: Precio y Botón */}
-        <div className="d-flex align-items-center justify-content-between mt-3 pt-2 border-top">
-          <span className="product-card__price fs-5 fw-bold">
+
+        {/* DISPONIBILIDAD DE STOCK */}
+
+        <div className="mb-2">
+
+          {agotado ? (
+
+            <small className="text-danger fw-semibold">
+
+              <i className="bi bi-x-circle me-1"></i>
+
+              Producto no disponible
+
+            </small>
+
+          ) : stockCritico ? (
+
+            <small className="text-warning-emphasis fw-semibold">
+
+              <i className="bi bi-exclamation-circle me-1"></i>
+
+              ¡Solo quedan {stockDisponible} unidades!
+
+            </small>
+
+          ) : (
+
+            <small className="text-success fw-semibold">
+
+              <i className="bi bi-check-circle me-1"></i>
+
+              {stockDisponible} unidades disponibles
+
+            </small>
+
+          )}
+
+        </div>
+
+
+        {/* PRECIO Y CONTROLES DE COMPRA */}
+
+        <div className="product-card__purchase mt-3 pt-3 border-top">
+
+          {/* Precio unitario */}
+
+          <span className="product-card__price fs-4 fw-bold">
+
             {formatearPrecio(producto.precio)}
+
           </span>
+
+
+          {/* Selector de cantidad */}
+
+          {!agotado && (
+
+            <div className="product-card__quantity-section">
+
+              <label className="product-card__quantity-label">
+
+                Cantidad
+
+              </label>
+
+              <div className="product-card__quantity-control">
+
+                {/* Disminuir cantidad */}
+
+                <Button
+                  variant="outline-secondary"
+                  className="product-card__quantity-button"
+                  onClick={disminuirCantidad}
+                  disabled={Number(cantidad) <= 1}
+                >
+
+                  −
+
+                </Button>
+
+
+                {/* Recuadro numérico */}
+
+                <input
+                  type="number"
+                  min="1"
+                  max={stockDisponible}
+                  step="1"
+                  value={cantidad}
+                  onChange={handleCantidadChange}
+                  onBlur={() => {
+                    if (cantidad === '') {
+                      setCantidad(1);
+                    }
+                  }}
+                  className="product-card__quantity-input"
+                  aria-label={`Cantidad de ${producto.nombre}`}
+                />
+
+
+                {/* Aumentar cantidad */}
+
+                <Button
+                  variant="outline-secondary"
+                  className="product-card__quantity-button"
+                  onClick={aumentarCantidad}
+                  disabled={Number(cantidad) >= stockDisponible}
+                >
+
+                  +
+
+                </Button>
+
+              </div>
+
+            </div>
+
+          )}
+
+
+          {/* Subtotal de las unidades seleccionadas */}
+
+          {!agotado && cantidadValida && Number(cantidad) > 1 && (
+
+            <div className="product-card__subtotal">
+
+              <span>Subtotal:</span>
+
+              <strong>
+
+                {formatearPrecio(
+                  producto.precio * Number(cantidad)
+                )}
+
+              </strong>
+
+            </div>
+
+          )}
+
+
+          {/* BOTÓN AÑADIR AL CARRITO */}
 
           <Button
             variant={agotado ? 'secondary' : 'isaflor'}
-            onClick={() => onAddToCart(producto)}
-            disabled={agotado}
-            className="rounded-pill px-3 py-1 btn-sm fw-semibold"
+            className="product-card__add-button"
+            onClick={handleAgregarCarrito}
+            disabled={agotado || !cantidadValida}
           >
-            {agotado ? 'Agotado' : 'Añadir 🛒'}
+
+            {agotado ? (
+
+              'Producto agotado'
+
+            ) : (
+
+              <>
+
+                <i
+                  className="bi bi-cart-plus me-2"
+                  aria-hidden="true"
+                ></i>
+
+                Añadir al carrito
+
+              </>
+
+            )}
+
           </Button>
+
         </div>
+
       </div>
+
     </div>
+
   );
+
 };
 
 export default ProductCard;

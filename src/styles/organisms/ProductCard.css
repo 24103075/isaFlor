@@ -1,4 +1,10 @@
+
 /* src/styles/organisms/ProductCard.css */
+
+
+/* =========================================
+   TARJETA DEL PRODUCTO
+========================================= */
 
 .product-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -10,9 +16,13 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Contenedor de la Imagen */
+
+/* =========================================
+   CONTENEDOR DE IMAGEN
+========================================= */
+
 .product-card__img-container {
-  height: 275px; /* Volvemos a la altura original */
+  height: 275px;
   background-color: var(--isaflor-fondo-pagina, #FAFAFA);
   display: flex;
   align-items: center;
@@ -22,11 +32,15 @@
 .product-card__img {
   width: 100%;
   height: 100%;
-  object-fit: contain !important; /* Muestra la imagen completa sin recortar nada */
+  object-fit: contain !important;
   object-position: center;
 }
 
-/* Textos y Precios */
+
+/* =========================================
+   TEXTOS Y PRECIOS
+========================================= */
+
 .product-card__category {
   font-size: 0.725rem;
   letter-spacing: 0.5px;
@@ -49,7 +63,11 @@
   color: var(--isaflor-verde-bosque, #2D5A27);
 }
 
-/* Variaciones de Badges de la marca IsaFlor */
+
+/* =========================================
+   BADGES DE ISAFLOR
+========================================= */
+
 .bg-isaflor-rose {
   background-color: var(--isaflor-rosa-principal, #E882A6) !important;
   color: #ffffff !important;
@@ -58,4 +76,218 @@
 .bg-isaflor-amber {
   background-color: #E9A84C !important;
   color: #ffffff !important;
+}
+
+
+/* =========================================
+   SECCIÓN DE COMPRA
+========================================= */
+
+.product-card__purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+
+/* =========================================
+   SELECTOR DE CANTIDAD
+========================================= */
+
+.product-card__quantity-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-card__quantity-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--isaflor-texto-oscuro, #2C3E35);
+}
+
+.product-card__quantity-control {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+
+/* Botones de aumentar y disminuir */
+
+.product-card .product-card__quantity-button {
+  width: 42px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #CBD5CB;
+  border-radius: 8px;
+  background-color: #F5F8F4;
+  color: #2D5A27;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.product-card .product-card__quantity-button:hover:not(:disabled) {
+  background-color: #E2EDDF;
+  border-color: #2D5A27;
+  color: #2D5A27;
+}
+
+.product-card .product-card__quantity-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* Recuadro numérico */
+
+.product-card__quantity-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #CBD5CB;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #2C3E35;
+  font-size: 1rem;
+  font-weight: 600;
+  outline: none;
+}
+
+.product-card__quantity-input:focus {
+  border-color: #2D5A27;
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12);
+}
+
+
+/* Ocultar flechas predeterminadas del input numérico */
+
+.product-card__quantity-input::-webkit-inner-spin-button,
+.product-card__quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.product-card__quantity-input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+
+/* =========================================
+   SUBTOTAL DE LA SELECCIÓN
+========================================= */
+
+.product-card__subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: #F3F7F1;
+  border-radius: 6px;
+  color: #2D5A27;
+  font-size: 0.85rem;
+}
+
+
+/* =========================================
+   BOTÓN AÑADIR AL CARRITO
+========================================= */
+
+.product-card .product-card__add-button {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+
+  background-color: var(--isaflor-verde-bosque, #2D5A27);
+  color: #ffffff;
+
+  border: 1px solid #2D5A27;
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 3px 8px rgba(45, 90, 39, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Efecto al pasar el cursor */
+
+.product-card .product-card__add-button:hover:not(:disabled) {
+  background-color: #21451D;
+  border-color: #21451D;
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(45, 90, 39, 0.25);
+}
+
+
+/* Efecto al presionar */
+
+.product-card .product-card__add-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+
+/* Estado deshabilitado */
+
+.product-card .product-card__add-button:disabled {
+  background-color: #E5E7E5;
+  border-color: #D5D8D5;
+  color: #777777;
+
+  opacity: 1;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+
+/* Accesibilidad mediante teclado */
+
+.product-card .product-card__add-button:focus-visible,
+.product-card .product-card__quantity-button:focus-visible {
+  outline: 3px solid #83AD7D;
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   DISEÑO RESPONSIVO
+========================================= */
+
+@media (max-width: 576px) {
+
+  .product-card__quantity-button {
+    width: 38px;
+  }
+
+  .product-card__add-button {
+    font-size: 0.85rem;
+  }
+
+  .product-card__purchase {
+    gap: 10px;
+  }
+
 }
