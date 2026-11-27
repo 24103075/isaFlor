@@ -17,21 +17,64 @@ import '../../styles/organisms/ProductCard.css';
 
 const ProductCard = ({ producto, onAddToCart }) => {
 
-  // Estados del componente
+  // =========================================
+  // ESTADOS DEL COMPONENTE
+  // =========================================
+
   const [cantidad, setCantidad] = useState(1);
   const [imagenFallida, setImagenFallida] = useState(null);
 
-  // Validaciones de stock
+
+  // =========================================
+  // VALIDACIONES DE STOCK
+  // =========================================
+
   const agotado = esProductoAgotado(producto);
   const stockCritico = tieneStockCritico(producto);
   const stockDisponible = Number(producto.stock);
 
-  // Comprobar disponibilidad de imagen
+
+  // =========================================
+  // INFORMACION DE PRECIOS Y OFERTAS
+  // =========================================
+
+  const precioFinal = Number(producto.precio);
+
+  const precioOriginal = Number(
+    producto.precioOriginal ?? producto.precio
+  );
+
+  const enOferta =
+    producto.enOferta === true &&
+    Number.isFinite(precioOriginal) &&
+    Number.isFinite(precioFinal) &&
+    precioFinal > 0 &&
+    precioFinal < precioOriginal;
+
+  const porcentajeDescuento = enOferta
+    ? Math.round(
+        ((precioOriginal - precioFinal) / precioOriginal) * 100
+      )
+    : 0;
+
+  const ahorroUnitario = enOferta
+    ? precioOriginal - precioFinal
+    : 0;
+
+
+  // =========================================
+  // DISPONIBILIDAD DE IMAGEN
+  // =========================================
+
   const tieneImagen =
     Boolean(producto.imagen) &&
     imagenFallida !== producto.imagen;
 
-  // Validar la cantidad seleccionada
+
+  // =========================================
+  // VALIDAR CANTIDAD SELECCIONADA
+  // =========================================
+
   const cantidadValida =
     cantidad !== '' &&
     Number.isInteger(Number(cantidad)) &&
@@ -39,7 +82,21 @@ const ProductCard = ({ producto, onAddToCart }) => {
     Number(cantidad) <= stockDisponible;
 
 
-  // Aumentar cantidad
+  // Calcular subtotal y ahorro total
+
+  const subtotal = cantidadValida
+    ? precioFinal * Number(cantidad)
+    : 0;
+
+  const ahorroTotal = cantidadValida
+    ? ahorroUnitario * Number(cantidad)
+    : 0;
+
+
+  // =========================================
+  // AUMENTAR CANTIDAD
+  // =========================================
+
   const aumentarCantidad = () => {
 
     if (!agotado) {
@@ -52,10 +109,14 @@ const ProductCard = ({ producto, onAddToCart }) => {
       );
 
     }
+
   };
 
 
-  // Disminuir cantidad
+  // =========================================
+  // DISMINUIR CANTIDAD
+  // =========================================
+
   const disminuirCantidad = () => {
 
     setCantidad(prev =>
@@ -65,7 +126,10 @@ const ProductCard = ({ producto, onAddToCart }) => {
   };
 
 
-  // Permitir escribir directamente la cantidad
+  // =========================================
+  // INGRESAR CANTIDAD MANUALMENTE
+  // =========================================
+
   const handleCantidadChange = (e) => {
 
     const valor = e.target.value;
@@ -90,7 +154,10 @@ const ProductCard = ({ producto, onAddToCart }) => {
   };
 
 
-  // Añadir las unidades seleccionadas al carrito
+  // =========================================
+  // AÑADIR PRODUCTO AL CARRITO
+  // =========================================
+
   const handleAgregarCarrito = () => {
 
     if (agotado || !cantidadValida) {
@@ -108,6 +175,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
   return (
 
     <div className="card h-100 product-card shadow-sm border-0 rounded-4 overflow-hidden">
+
 
       {/* CONTENEDOR DE IMAGEN */}
 
@@ -143,16 +211,25 @@ const ProductCard = ({ producto, onAddToCart }) => {
 
         <div className="position-absolute top-0 start-0 m-2 d-flex flex-column gap-1">
 
-          {producto.enOferta && (
+          {/* Etiqueta de oferta */}
+
+          {enOferta && (
 
             <Badge
               bg="isaflor-rose"
               className="shadow-sm"
             >
-              Oferta
+
+              {porcentajeDescuento > 0
+                ? `-${porcentajeDescuento}% OFERTA`
+                : 'Oferta'}
+
             </Badge>
 
           )}
+
+
+          {/* Etiqueta de stock critico */}
 
           {stockCritico && !agotado && (
 
@@ -164,6 +241,9 @@ const ProductCard = ({ producto, onAddToCart }) => {
             </Badge>
 
           )}
+
+
+          {/* Etiqueta de producto agotado */}
 
           {agotado && (
 
@@ -185,7 +265,8 @@ const ProductCard = ({ producto, onAddToCart }) => {
 
       <div className="card-body d-flex flex-column p-3">
 
-        {/* Categoría */}
+
+        {/* Categoria */}
 
         <small className="product-card__category text-muted mb-1 text-uppercase fw-semibold">
 
@@ -203,7 +284,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
         </h5>
 
 
-        {/* Descripción */}
+        {/* Descripcion */}
 
         <p className="card-text text-muted small flex-grow-1 product-card__description">
 
@@ -255,16 +336,55 @@ const ProductCard = ({ producto, onAddToCart }) => {
 
         <div className="product-card__purchase mt-3 pt-3 border-top">
 
-          {/* Precio unitario */}
 
-          <span className="product-card__price fs-4 fw-bold">
+          {/* CONTENEDOR DE PRECIOS */}
 
-            {formatearPrecio(producto.precio)}
-
-          </span>
+          <div className="product-card__prices d-flex flex-column">
 
 
-          {/* Selector de cantidad */}
+            {/* Precio original tachado */}
+
+            {enOferta && (
+
+              <span className="product-card__original-price text-muted text-decoration-line-through">
+
+                {formatearPrecio(precioOriginal)}
+
+              </span>
+
+            )}
+
+
+            {/* Precio final del producto */}
+
+            <span className="product-card__price fs-4 fw-bold">
+
+              {formatearPrecio(precioFinal)}
+
+            </span>
+
+
+            {/* Ahorro por unidad */}
+
+            {enOferta && (
+
+              <span className="product-card__saving text-success small fw-semibold">
+
+                <i
+                  className="bi bi-tag-fill me-1"
+                  aria-hidden="true"
+                ></i>
+
+                Ahorras {formatearPrecio(ahorroUnitario)} por unidad
+
+              </span>
+
+            )}
+
+          </div>
+
+
+          {/* SELECTOR DE CANTIDAD */}
 
           {!agotado && (
 
@@ -277,6 +397,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
               </label>
 
               <div className="product-card__quantity-control">
+
 
                 {/* Disminuir cantidad */}
 
@@ -292,7 +413,7 @@ const ProductCard = ({ producto, onAddToCart }) => {
                 </Button>
 
 
-                {/* Recuadro numérico */}
+                {/* Recuadro numerico */}
 
                 <input
                   type="number"
@@ -331,28 +452,52 @@ const ProductCard = ({ producto, onAddToCart }) => {
           )}
 
 
-          {/* Subtotal de las unidades seleccionadas */}
+          {/* SUBTOTAL DE LAS UNIDADES SELECCIONADAS */}
 
           {!agotado && cantidadValida && Number(cantidad) > 1 && (
 
-            <div className="product-card__subtotal">
+            <div className="product-card__subtotal-container">
 
-              <span>Subtotal:</span>
 
-              <strong>
+              {/* Subtotal con el precio final */}
 
-                {formatearPrecio(
-                  producto.precio * Number(cantidad)
-                )}
+              <div className="product-card__subtotal">
 
-              </strong>
+                <span>Subtotal:</span>
+
+                <strong>
+
+                  {formatearPrecio(subtotal)}
+
+                </strong>
+
+              </div>
+
+
+              {/* Ahorro total de la compra */}
+
+              {enOferta && (
+
+                <div className="product-card__total-saving text-success small fw-semibold d-flex justify-content-between mt-2">
+
+                  <span>Ahorro total:</span>
+
+                  <strong>
+
+                    {formatearPrecio(ahorroTotal)}
+
+                  </strong>
+
+                </div>
+
+              )}
 
             </div>
 
           )}
 
 
-          {/* BOTÓN AÑADIR AL CARRITO */}
+          {/* BOTON AÑADIR AL CARRITO */}
 
           <Button
             variant={agotado ? 'secondary' : 'isaflor'}

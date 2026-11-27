@@ -1,57 +1,390 @@
 
-/* Contenedor principal del checkout */
+/* src/styles/pages/Checkout.css */
+
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+
 .checkout-contenedor {
   padding-top: 1rem;
   padding-bottom: 1.5rem;
 }
 
-/* Títulos de las secciones */
+
+/* =========================================
+   TÍTULOS
+========================================= */
+
 .checkout-titulo {
-  color: var(--isaflor-verde-eucalipto);
+  color: var(--isaflor-verde-eucalipto, #438879);
   font-weight: 700;
 }
 
-/* Tarjeta del resumen del pedido */
+.checkout-resumen-titulo {
+  color: var(--isaflor-verde-eucalipto, #438879);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   TARJETA DEL RESUMEN DEL PEDIDO
+========================================= */
+
 .checkout-resumen {
   background-color: #ffffff;
-  border: 1px solid var(--isaflor-rosa-claro);
-  border-radius: 0.75rem;
+  border: 1px solid #E5E9E5;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
-/* Título del resumen */
-.checkout-resumen-titulo {
-  color: var(--isaflor-cafe-suave);
+.checkout-resumen .card-body {
+  padding: 1.5rem;
+}
+
+.checkout-resumen .list-group-item {
+  background-color: transparent;
+  border-color: #E5E9E5;
+}
+
+.checkout-resumen .list-group-item h6 {
+  color: var(--isaflor-texto-oscuro, #2C3E35);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   ETIQUETA DE OFERTA
+========================================= */
+
+.checkout-oferta-badge {
+  display: flex;
+  align-items: center;
+}
+
+.checkout-oferta-badge .badge {
+  background-color: var(--isaflor-rosa-principal, #E882A6);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 9px;
+  border-radius: 6px;
+}
+
+
+/* =========================================
+   PRECIOS DE LOS PRODUCTOS
+========================================= */
+
+.checkout-precios {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Precio original tachado */
+
+.checkout-precio-original {
+  color: #777777;
+  font-size: 0.85rem;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+/* Precio final con descuento */
+
+.checkout-precio-final {
+  color: var(--isaflor-verde-bosque, #2D5A27);
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   TOTAL DE LA COMPRA
+========================================= */
+
+.checkout-total {
+  color: var(--isaflor-verde-eucalipto, #438879);
+  font-weight: 700;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkout-total span:last-child {
+  font-size: 1.4rem;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   RECUADRO DE AHORRO TOTAL
+========================================= */
+
+.checkout-ahorro-total {
+  background-color: #EAF3E6;
+  color: var(--isaflor-verde-bosque, #2D5A27);
+  border: 1px solid #DCEAD7;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.checkout-ahorro-total strong {
   font-weight: 700;
 }
 
-/* Tarjeta de la boleta */
+
+/* =========================================
+   BOTÓN ACTUALIZAR PRECIOS
+========================================= */
+
+.checkout-contenedor .checkout-actualizar-button {
+  min-height: 40px;
+  background-color: #F5F8F4;
+  color: var(--isaflor-verde-bosque, #2D5A27);
+  border: 1px solid #CBD5CB;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.checkout-contenedor
+.checkout-actualizar-button:hover:not(:disabled) {
+  background-color: #E2EDDF;
+  border-color: #2D5A27;
+  color: #2D5A27;
+}
+
+.checkout-contenedor
+.checkout-actualizar-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   BOTÓN CONFIRMAR PEDIDO
+========================================= */
+
+.checkout-contenedor .checkout-confirmar-button {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+
+  background-color: var(--isaflor-verde-bosque, #2D5A27);
+  color: #ffffff;
+
+  border: 1px solid #2D5A27;
+  border-radius: 8px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  box-shadow: 0 3px 8px rgba(45, 90, 39, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.checkout-contenedor
+.checkout-confirmar-button:hover:not(:disabled) {
+  background-color: #21451D;
+  border-color: #21451D;
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(45, 90, 39, 0.25);
+}
+
+.checkout-contenedor
+.checkout-confirmar-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.checkout-contenedor
+.checkout-confirmar-button:disabled {
+  background-color: #E5E7E5;
+  border-color: #D5D8D5;
+  color: #777777;
+
+  opacity: 1;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+
+/* Accesibilidad mediante teclado */
+
+.checkout-contenedor
+.checkout-confirmar-button:focus-visible,
+.checkout-contenedor
+.checkout-actualizar-button:focus-visible {
+  outline: 3px solid #83AD7D;
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   MEDIOS DE PAGO
+========================================= */
+
+.checkout-contenedor .form-check {
+  background-color: #ffffff;
+  border-color: #DCE3DC !important;
+  transition: all 0.2s ease;
+}
+
+.checkout-contenedor .form-check:has(input:checked) {
+  background-color: #F3F7F1;
+  border-color: #83AD7D !important;
+}
+
+.checkout-contenedor .form-check-input:checked {
+  background-color: #2D5A27;
+  border-color: #2D5A27;
+}
+
+.checkout-contenedor .form-check-input:focus {
+  border-color: #83AD7D;
+  box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12);
+}
+
+.checkout-contenedor .form-check-label {
+  cursor: pointer;
+}
+
+
+/* =========================================
+   FORMULARIO BLOQUEADO DURANTE VERIFICACIÓN
+========================================= */
+
+.checkout-contenedor fieldset:disabled {
+  opacity: 0.75;
+}
+
+
+/* =========================================
+   TARJETA DEL COMPROBANTE
+========================================= */
+
 .checkout-boleta {
   max-width: 600px;
   margin: 1.5rem auto;
   padding: 1.5rem;
+
   background-color: #ffffff;
-  border: 1px solid var(--isaflor-rosa-claro);
+
+  border: 1px solid #E5E9E5;
   border-radius: 1rem;
+
   text-align: center;
 }
 
-/* Detalles de la boleta */
+
+/* Detalles del comprobante */
+
 .checkout-boleta-detalles {
   padding: 1rem;
-  background-color: var(--isaflor-rosa-claro);
-  border-radius: 0.5rem;
+  background-color: #F5F8F4;
+  border: 1px solid #E2E9E0;
+  border-radius: 8px;
   text-align: left;
 }
 
-/* Total de la compra */
-.checkout-total {
-  color: var(--isaflor-verde-eucalipto);
+.checkout-boleta-detalles h5,
+.checkout-boleta-detalles h6 {
+  color: var(--isaflor-verde-bosque, #2D5A27);
   font-weight: 700;
 }
 
-/* Ajustes para celulares */
+.checkout-boleta-detalles .list-group-item {
+  font-size: 0.9rem;
+  border-color: #E2E9E0;
+}
+
+
+/* =========================================
+   DISEÑO RESPONSIVO
+========================================= */
+
 @media (max-width: 576px) {
+
+  .checkout-contenedor {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .checkout-titulo {
+    font-size: 1.4rem;
+  }
+
+  .checkout-resumen .card-body {
+    padding: 1rem;
+  }
+
+  .checkout-resumen-titulo {
+    font-size: 1.1rem;
+  }
+
+  .checkout-precio-original {
+    font-size: 0.75rem;
+  }
+
+  .checkout-precio-final {
+    font-size: 0.95rem;
+  }
+
+  .checkout-total span:last-child {
+    font-size: 1.2rem;
+  }
+
+  .checkout-ahorro-total {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
   .checkout-boleta {
     padding: 1rem;
   }
+
+  .checkout-boleta-detalles {
+    padding: 0.75rem;
+  }
+
+  .checkout-contenedor .checkout-confirmar-button {
+    font-size: 0.9rem;
+  }
+
+  /* Alineación de los medios de pago */
+
+.checkout-contenedor .form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+.checkout-contenedor .form-check-input {
+  float: none;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.checkout-contenedor .form-check-label {
+  flex: 1;
+  margin-left: 0 !important;
+}
+
+}
+ 
