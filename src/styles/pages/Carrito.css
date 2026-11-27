@@ -1,32 +1,287 @@
+
 /* src/styles/pages/Carrito.css */
 
-/* Contenedor general de la página */
+
+/* =========================================
+   CONTENEDOR GENERAL
+========================================= */
+
 .isaflor-carrito-container {
   min-height: 75vh;
 }
 
-/* Título de la página y subtítulos del resumen */
 .text-isaflor-green {
   color: var(--isaflor-verde-bosque, #2D5A27);
 }
 
-/* Estilo para las miniaturas de productos en la tabla */
+
+/* =========================================
+   MINIATURAS DE PRODUCTOS
+========================================= */
+
 .img-carrito-thumb {
   width: 60px;
   height: 60px;
+  min-width: 60px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
-/* Encabezado de la tabla de productos */
+
+/* =========================================
+   TABLA DE PRODUCTOS
+========================================= */
+
 .isaflor-carrito-container .table thead th {
   color: var(--isaflor-texto-oscuro, #2C3E35);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: #f8f9fa;
+  background-color: #F8F9FA;
+  white-space: nowrap;
 }
 
-/* Estado de Carrito Vacío */
+.isaflor-carrito-container .table tbody td {
+  padding: 14px 10px;
+  vertical-align: middle;
+}
+
+
+/* =========================================
+   ETIQUETA DE OFERTA
+========================================= */
+
+.carrito-oferta-badge {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.carrito-oferta-badge .badge {
+  background-color: var(--isaflor-rosa-principal, #E882A6) !important;
+  color: #ffffff !important;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 5px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.3px;
+}
+
+
+/* =========================================
+   PRECIOS DE LOS PRODUCTOS
+========================================= */
+
+.carrito-precios {
+  gap: 3px;
+  white-space: nowrap;
+}
+
+/* Precio original tachado */
+
+.carrito-precio-original {
+  font-size: 0.8rem;
+  color: #757575 !important;
+  text-decoration: line-through;
+}
+
+/* Precio vigente */
+
+.carrito-precio-final {
+  color: var(--isaflor-verde-bosque, #2D5A27);
+  font-size: 1rem;
+  font-weight: 700 !important;
+}
+
+
+/* =========================================
+   AHORRO POR PRODUCTO
+========================================= */
+
+.carrito-ahorro-producto {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+
+/* =========================================
+   SELECTOR DE CANTIDAD
+========================================= */
+
+.isaflor-carrito-container .btn-group-sm > .btn {
+  min-width: 30px;
+  padding: 6px 10px;
+}
+
+.isaflor-carrito-container .btn-group-sm > .btn-outline-secondary {
+  border-color: #CBD5CB;
+  background-color: #F5F8F4;
+  color: #2D5A27;
+  font-weight: 600;
+}
+
+.isaflor-carrito-container .btn-group-sm > .btn-outline-secondary:hover:not(:disabled) {
+  background-color: #E2EDDF;
+  border-color: #2D5A27;
+  color: #2D5A27;
+}
+
+.isaflor-carrito-container .btn-group-sm > .btn-outline-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.isaflor-carrito-container .btn-group-sm > span.btn {
+  min-width: 40px;
+  background-color: #FFFFFF;
+  border-color: #CBD5CB;
+  opacity: 1;
+}
+
+
+/* =========================================
+   BOTÓN ACTUALIZAR PRECIOS
+========================================= */
+
+.isaflor-carrito-container .carrito-actualizar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 16px;
+
+  background-color: #FFFFFF;
+  color: var(--isaflor-verde-bosque, #2D5A27);
+
+  border: 1px solid #2D5A27;
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.isaflor-carrito-container .carrito-actualizar-button:hover:not(:disabled) {
+  background-color: #2D5A27;
+  border-color: #2D5A27;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.isaflor-carrito-container .carrito-actualizar-button:disabled {
+  background-color: #F3F4F3;
+  border-color: #CBD5CB;
+  color: #888888;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* =========================================
+   MENSAJE DE AHORRO TOTAL
+========================================= */
+
+.isaflor-carrito-container .carrito-ahorro-total {
+  background-color: #EDF5EA;
+  border: 1px solid #D4E6CF;
+  border-radius: 8px;
+  color: #2D5A27;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.carrito-ahorro-total strong {
+  font-weight: 700;
+}
+
+
+/* =========================================
+   BOTÓN PROCEDER AL PAGO
+========================================= */
+
+.isaflor-carrito-container .carrito-pago-button {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px;
+
+  background-color: var(--isaflor-verde-bosque, #2D5A27);
+  color: #FFFFFF;
+
+  border: 1px solid #2D5A27;
+  border-radius: 8px;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 3px 8px rgba(45, 90, 39, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Efecto al pasar el cursor */
+
+.isaflor-carrito-container .carrito-pago-button:hover:not(:disabled) {
+  background-color: #21451D;
+  border-color: #21451D;
+  color: #FFFFFF;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(45, 90, 39, 0.25);
+}
+
+
+/* Efecto al presionar */
+
+.isaflor-carrito-container .carrito-pago-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+
+/* Estado deshabilitado */
+
+.isaflor-carrito-container .carrito-pago-button:disabled {
+  background-color: #E5E7E5;
+  border-color: #D5D8D5;
+  color: #777777;
+
+  opacity: 1;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+
+/* =========================================
+   ACCESIBILIDAD MEDIANTE TECLADO
+========================================= */
+
+.isaflor-carrito-container .carrito-pago-button:focus-visible,
+.isaflor-carrito-container .carrito-actualizar-button:focus-visible,
+.isaflor-carrito-container .btn-group-sm > button:focus-visible {
+  outline: 3px solid #83AD7D;
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   ESTADO DE CARRITO VACÍO
+========================================= */
+
 .isaflor-carrito-vacio {
   min-height: 50vh;
   display: flex;
@@ -36,14 +291,72 @@
   padding: 2rem;
 }
 
-/* Ajuste responsive para pantallas pequeñas (móviles) */
+.isaflor-carrito-vacio .btn-isaflor {
+  background-color: var(--isaflor-verde-bosque, #2D5A27);
+  border: 1px solid #2D5A27;
+  color: #FFFFFF;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.isaflor-carrito-vacio .btn-isaflor:hover {
+  background-color: #21451D;
+  border-color: #21451D;
+  color: #FFFFFF;
+}
+
+
+/* =========================================
+   DISEÑO RESPONSIVO
+========================================= */
+
+@media (max-width: 768px) {
+
+  .isaflor-carrito-container .table tbody td {
+    padding: 10px 8px;
+  }
+
+  .carrito-precio-final {
+    font-size: 0.9rem;
+  }
+
+  .carrito-ahorro-producto {
+    font-size: 0.7rem;
+  }
+
+}
+
 @media (max-width: 576px) {
+
   .img-carrito-thumb {
     width: 45px;
     height: 45px;
+    min-width: 45px;
   }
-  
+
   .isaflor-carrito-container .btn-group-sm > .btn {
     padding: 0.25rem 0.4rem;
+    min-width: 26px;
   }
+
+  .isaflor-carrito-container .carrito-actualizar-button {
+    width: 100%;
+  }
+
+  .isaflor-carrito-container .carrito-pago-button {
+    font-size: 0.85rem !important;
+  }
+
+  .carrito-oferta-badge .badge {
+    font-size: 0.65rem;
+  }
+
+  .carrito-precio-original {
+    font-size: 0.75rem;
+  }
+
+  .isaflor-carrito-container .table {
+    min-width: 620px;
+  }
+
 }

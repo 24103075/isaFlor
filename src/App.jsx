@@ -1,7 +1,7 @@
 
 // src/App.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import {
   BrowserRouter,
@@ -28,6 +28,9 @@ import Dashboard from './pages/Dashboard';
 import Ofertas from './pages/Ofertas';
 import Ordenes from './pages/Ordenes';
 
+// Servicios
+import { obtenerProductos } from './services/productoService';
+
 // Validaciones
 import { esProductoAgotado } from './utils/validaciones';
 
@@ -37,12 +40,20 @@ import './styles/global.css';
 
 function App() {
 
-  // Estado del carrito y sus mensajes
+  // =========================================
+  // ESTADOS DEL CARRITO
+  // =========================================
+
   const [estadoCarrito, setEstadoCarrito] = useState({
     productos: [],
     mensaje: '',
     tipo: 'success'
   });
+
+  const [actualizandoCarrito, setActualizandoCarrito] =
+    useState(false);
+
+  const consultaEnCurso = useRef(false);
 
   const cart = estadoCarrito.productos;
 
@@ -64,7 +75,10 @@ function App() {
   };
 
 
-  // Estado del usuario
+  // =========================================
+  // ESTADO DEL USUARIO
+  // =========================================
+
   const [usuario, setUsuario] = useState(() => {
 
     return JSON.parse(
@@ -84,12 +98,28 @@ function App() {
 
     setEstadoCarrito(prev => {
 
-      // Validar disponibilidad del producto
+      // Validar disponibilidad
       if (esProductoAgotado(producto)) {
 
         return {
           ...prev,
           mensaje: 'Este producto no se encuentra disponible.',
+          tipo: 'warning'
+        };
+
+      }
+
+
+      // Validar precio del producto
+      if (
+        producto.precio == null ||
+        !Number.isFinite(Number(producto.precio)) ||
+        Number(producto.precio) <= 0
+      ) {
+
+        return {
+          ...prev,
+          mensaje: 'El producto no tiene un precio válido.',
           tipo: 'warning'
         };
 
@@ -114,24 +144,22 @@ function App() {
       const stockDisponible = Number(producto.stock);
 
 
-      // Buscar si el producto ya existe en el carrito
+      // Buscar producto existente
       const existe = prev.productos.find(
         item => item.id === producto.id
       );
 
 
-      // Obtener cantidad actual
       const cantidadActual = existe
         ? Number(existe.cantidad)
         : 0;
 
 
-      // Calcular nueva cantidad
       const nuevaCantidad =
         cantidadActual + cantidadSolicitada;
 
 
-      // Comprobar que no supere el stock disponible
+      // Comprobar disponibilidad de stock
       if (nuevaCantidad > stockDisponible) {
 
         const unidadesRestantes = Math.max(
@@ -159,6 +187,9 @@ function App() {
       // Actualizar producto existente
       if (existe) {
 
+        const cambioPrecio =
+          Number(existe.precio) !== Number(producto.precio);
+
         return {
 
           productos: prev.productos.map(item =>
@@ -167,8 +198,12 @@ function App() {
 
               ? {
                   ...item,
+
+                  // Actualizar todos los datos del producto
+                  ...producto,
+
+                  precio: Number(producto.precio),
                   stock: stockDisponible,
-                  stockCritico: producto.stockCritico,
                   cantidad: nuevaCantidad
                 }
 
@@ -176,16 +211,20 @@ function App() {
 
           ),
 
-          mensaje: `Se añadieron ${cantidadSolicitada} unidad(es) de ${producto.nombre} al carrito.`,
+          mensaje: cambioPrecio
 
-          tipo: 'success'
+            ? `Se actualizó el precio de ${producto.nombre} y se añadieron ${cantidadSolicitada} unidad(es) al carrito.`
+
+            : `Se añadieron ${cantidadSolicitada} unidad(es) de ${producto.nombre} al carrito.`,
+
+          tipo: cambioPrecio ? 'warning' : 'success'
 
         };
 
       }
 
 
-      // Añadir un producto nuevo
+      // Añadir producto nuevo
       return {
 
         productos: [
@@ -194,6 +233,7 @@ function App() {
 
           {
             ...producto,
+            precio: Number(producto.precio),
             stock: stockDisponible,
             cantidad: cantidadSolicitada
           }
@@ -207,6 +247,180 @@ function App() {
       };
 
     });
+
+  };
+
+
+  // =========================================
+  // ACTUALIZAR PRECIOS, OFERTAS Y STOCK
+  // DESDE EL BACKEND
+  // =========================================
+
+  const actualizarCarrito = async () => {
+
+    // Evitar consultas simultáneas
+    if (consultaEnCurso.current) {
+      return false;
+    }
+
+    consultaEnCurso.current = true;
+    setActualizandoCarrito(true);
+
+    try {
+
+      // Consultar productos reales desde el backend
+      const productosActualizados = await obtenerProductos();
+
+      // Organizar productos por identificador
+      const productosPorId = new Map(
+
+        productosActualizados.map(producto => [
+          producto.id,
+          producto
+        ])
+
+      );
+
+
+      setEstadoCarrito(prev => {
+
+        let huboCambios = false;
+        let hayProblemas = false;
+
+
+        const carritoActualizado = prev.productos.map(item => {
+
+          const productoActual = productosPorId.get(item.id);
+
+
+          // Producto eliminado del inventario
+          if (!productoActual) {
+
+            huboCambios = true;
+            hayProblemas = true;
+
+            return {
+              ...item,
+              stock: 0,
+              noDisponible: true
+            };
+
+          }
+
+
+          // Detectar cambios de precio, oferta o stock
+          if (
+            Number(item.precio) !== Number(productoActual.precio) ||
+            Number(item.precioOriginal) !== Number(productoActual.precioOriginal) ||
+            item.precioOferta !== productoActual.precioOferta ||
+            item.enOferta !== productoActual.enOferta ||
+            Number(item.stock) !== Number(productoActual.stock) ||
+            item.noDisponible === true
+          ) {
+
+            huboCambios = true;
+
+          }
+
+
+          // Comprobar disponibilidad de las unidades
+          if (
+            esProductoAgotado(productoActual) ||
+            Number(item.cantidad) > Number(productoActual.stock) ||
+            !Number.isInteger(Number(item.cantidad)) ||
+            Number(item.cantidad) < 1 ||
+            !Number.isFinite(Number(productoActual.precio)) ||
+            Number(productoActual.precio) <= 0
+          ) {
+
+            hayProblemas = true;
+
+          }
+
+
+          // Actualizar datos manteniendo cantidad seleccionada
+          return {
+
+            ...item,
+            ...productoActual,
+
+            cantidad: item.cantidad,
+            noDisponible: false
+
+          };
+
+        });
+
+
+        // Informar problemas de disponibilidad
+        if (hayProblemas) {
+
+          return {
+
+            productos: carritoActualizado,
+
+            mensaje: 'Algunos productos del carrito presentan cambios de disponibilidad, stock o precio. Revisa tu compra antes de continuar.',
+
+            tipo: 'warning'
+
+          };
+
+        }
+
+
+        // Informar cambios de precios u ofertas
+        if (huboCambios) {
+
+          return {
+
+            productos: carritoActualizado,
+
+            mensaje: 'Se actualizaron los precios, ofertas o stock de los productos de tu carrito.',
+
+            tipo: 'warning'
+
+          };
+
+        }
+
+
+        // Mantener el carrito actualizado
+        return {
+
+          ...prev,
+          productos: carritoActualizado
+
+        };
+
+      });
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        'Error al actualizar el carrito:',
+        error
+      );
+
+      setEstadoCarrito(prev => ({
+
+        ...prev,
+
+        mensaje: 'No fue posible verificar los precios y el stock del carrito. Intenta nuevamente antes de continuar con la compra.',
+
+        tipo: 'danger'
+
+      }));
+
+      return false;
+
+    } finally {
+
+      consultaEnCurso.current = false;
+      setActualizandoCarrito(false);
+
+    }
 
   };
 
@@ -321,6 +535,8 @@ function App() {
               <Carrito
                 cart={cart}
                 setCart={setCart}
+                actualizarCarrito={actualizarCarrito}
+                actualizandoCarrito={actualizandoCarrito}
               />
             }
           />
@@ -335,6 +551,8 @@ function App() {
                 cart={cart}
                 setCart={setCart}
                 usuario={usuario}
+                actualizarCarrito={actualizarCarrito}
+                actualizandoCarrito={actualizandoCarrito}
               />
             }
           />
